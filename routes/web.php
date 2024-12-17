@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{DepartmentController, DesignationController, EmployeeController, HomeController, RoleController};
+use App\Http\Controllers\{DepartmentController, DesignationController, EmployeeController, GeneralController, HomeController, RoleController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,4 +18,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('departments', DepartmentController::class);
     Route::resource('designations', DesignationController::class);
     Route::resource('employees', EmployeeController::class);
+    Route::resource('settings/general', GeneralController::class);
 });

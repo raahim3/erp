@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 16, 2024 at 06:49 PM
+-- Generation Time: Dec 17, 2024 at 06:09 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.14
 
@@ -63,7 +63,7 @@ CREATE TABLE `companies` (
 --
 
 INSERT INTO `companies` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Rahim code vibes', '2024-12-15 11:09:21', '2024-12-15 11:09:21');
+(1, 'Rahim code vibes', '2024-12-17 13:07:58', '2024-12-17 13:07:58');
 
 -- --------------------------------------------------------
 
@@ -85,7 +85,7 @@ CREATE TABLE `departments` (
 --
 
 INSERT INTO `departments` (`id`, `name`, `description`, `company_id`, `created_at`, `updated_at`) VALUES
-(1, 'Ownership', NULL, 1, '2024-12-15 11:09:21', '2024-12-15 11:09:21');
+(1, 'Ownership', NULL, 1, '2024-12-17 13:07:58', '2024-12-17 13:07:58');
 
 -- --------------------------------------------------------
 
@@ -107,9 +107,7 @@ CREATE TABLE `designations` (
 --
 
 INSERT INTO `designations` (`id`, `name`, `description`, `company_id`, `created_at`, `updated_at`) VALUES
-(1, 'Ceo / Founder', NULL, 1, '2024-12-15 11:09:21', '2024-12-15 11:09:21'),
-(7, 'Maxine Shaw', 'Consequat Excepturi', 1, '2024-12-15 11:43:57', '2024-12-15 11:43:57'),
-(8, 'Ima Walker', 'Quaerat perspiciatis', 1, '2024-12-15 11:44:18', '2024-12-15 11:44:18');
+(1, 'Ceo / Founder', NULL, 1, '2024-12-17 13:07:58', '2024-12-17 13:07:58');
 
 -- --------------------------------------------------------
 
@@ -126,6 +124,35 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `generals`
+--
+
+CREATE TABLE `generals` (
+  `id` bigint UNSIGNED NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dark_logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `light_logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `favicon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `primary_color` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `generals`
+--
+
+INSERT INTO `generals` (`id`, `title`, `description`, `email`, `phone`, `address`, `dark_logo`, `light_logo`, `favicon`, `primary_color`, `company_id`, `created_at`, `updated_at`) VALUES
+(1, 'Rahim code vibes', 'Rahim code vibes', 'raahim32006@gmail.com', '03470993615', 'N/A', '1734458935_Untitled_design-removebg-preview.png', '1734458935_light_LOgo__1_-removebg-preview.png', '1734458935_Untitled_design__1_-removebg-preview.png', '#000000', 1, '2024-12-17 13:07:58', '2024-12-17 13:08:55');
 
 -- --------------------------------------------------------
 
@@ -179,13 +206,14 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '0001_01_01_000001_create_cache_table', 1),
-(2, '0001_01_01_000002_create_jobs_table', 1),
-(3, '2024_12_15_142433_create_companies_table', 1),
-(4, '2024_12_15_142434_create_roles_table', 1),
-(5, '2024_12_15_154735_create_departments_table', 1),
-(6, '2024_12_15_155025_create_designations_table', 1),
-(7, '2024_12_15_155026_create_users_table', 1);
+(17, '0001_01_01_000001_create_cache_table', 1),
+(18, '0001_01_01_000002_create_jobs_table', 1),
+(19, '2024_12_15_142433_create_companies_table', 1),
+(20, '2024_12_15_142434_create_roles_table', 1),
+(21, '2024_12_15_154735_create_departments_table', 1),
+(22, '2024_12_15_155025_create_designations_table', 1),
+(23, '2024_12_15_155026_create_users_table', 1),
+(24, '2024_12_17_162828_create_generals_table', 1);
 
 -- --------------------------------------------------------
 
@@ -218,7 +246,7 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `company_id`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 1, '2024-12-15 11:09:21', '2024-12-15 11:09:21');
+(1, 'Admin', 1, '2024-12-17 13:07:58', '2024-12-17 13:07:58');
 
 -- --------------------------------------------------------
 
@@ -240,7 +268,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('1PhejrSpmT3OXX8eNFfVtV3KRmcAdl1hCtzlzGFR', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiT0xpRTVNSGZzMHRrdzI0dm5IN2VrYm5KeEY2eUJUZlV5QTFwY2NseSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHBzOi8vZXJwLnRlc3QvZW1wbG95ZWVzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjQ6ImF1dGgiO2E6MTp7czoyMToicGFzc3dvcmRfY29uZmlybWVkX2F0IjtpOjE3MzQzNzAzMDM7fX0=', 1734374912);
+('HJ1kZpFG6MNRgEZaB3T7tb4HZOrrNNLCc0nwsa0X', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiQzE2b052YjgyeEZRbG52OUlmRkJYenV4M2lmc0FUcHZIOUpnaWhqRSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHBzOi8vZXJwLnRlc3QvaG9tZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1734458943);
 
 -- --------------------------------------------------------
 
@@ -274,7 +302,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `profile`, `first_name`, `last_name`, `phone`, `name`, `email`, `email_verified_at`, `password`, `hired_at`, `role_id`, `department_id`, `designation_id`, `company_id`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Muhammad', 'Rahim', NULL, 'Muhammad Rahim', 'raahim32006@gmail.com', NULL, '$2y$12$cz7QPn4Kjtsydq81VMlamOuQIClTYe92/72zYFGzWhRIKhyg4k9Ku', NULL, 1, 1, 1, 1, '1', NULL, '2024-12-15 11:09:22', '2024-12-15 11:09:22');
+(1, NULL, 'Muhammad', 'Rahim', NULL, 'Muhammad Rahim', 'raahim32006@gmail.com', NULL, '$2y$12$eN82evh9fy46PPQmuK49POZC3iOhjt0hQmB6/uuoEC1Pke4tMt7CG', NULL, 1, 1, 1, 1, '1', NULL, '2024-12-17 13:07:59', '2024-12-17 13:07:59');
 
 --
 -- Indexes for dumped tables
@@ -312,7 +340,6 @@ ALTER TABLE `departments`
 --
 ALTER TABLE `designations`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `designations_name_unique` (`name`),
   ADD KEY `designations_company_id_foreign` (`company_id`);
 
 --
@@ -321,6 +348,13 @@ ALTER TABLE `designations`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `generals`
+--
+ALTER TABLE `generals`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `generals_company_id_foreign` (`company_id`);
 
 --
 -- Indexes for table `jobs`
@@ -387,19 +421,25 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `designations`
 --
 ALTER TABLE `designations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `generals`
+--
+ALTER TABLE `generals`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -411,19 +451,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -440,6 +480,12 @@ ALTER TABLE `departments`
 --
 ALTER TABLE `designations`
   ADD CONSTRAINT `designations_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`);
+
+--
+-- Constraints for table `generals`
+--
+ALTER TABLE `generals`
+  ADD CONSTRAINT `generals_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`);
 
 --
 -- Constraints for table `roles`

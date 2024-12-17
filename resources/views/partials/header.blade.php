@@ -3,21 +3,21 @@
         <div class="d-flex">
             <!-- LOGO -->
             <div class="navbar-brand-box">
-                <a href="index.html" class="logo logo-dark">
+                <a href="{{ route('home') }}" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22">
+                        <img src="{{ asset('uploads/logos').'/'. $setting->dark_logo }}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="17">
+                        <img src="{{ asset('uploads/logos').'/'. $setting->dark_logo }}" alt="" height="17">
                     </span>
                 </a>
 
-                <a href="index.html" class="logo logo-light">
+                <a href="{{ route('home') }}" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22">
+                        <img src="{{ asset('uploads/logos').'/'. $setting->light_logo }}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="18">
+                        <img src="{{ asset('uploads/logos').'/'. $setting->light_logo }}" alt="" height="50">
                     </span>
                 </a>
             </div>
@@ -248,12 +248,6 @@
                         <button class="dropdown-item text-danger" type="submit"><i class="mdi mdi-power font-size-17 text-muted align-middle me-1 text-danger"></i> Logout</button>
                     </form>
                 </div>
-            </div>
-            
-            <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
-                    <i class="mdi mdi-spin mdi-cog"></i>
-                </button>
             </div>
         </div>
     </div>

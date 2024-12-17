@@ -11,10 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('designations', function (Blueprint $table) {
+        Schema::create('generals', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('title');
             $table->text('description')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('dark_logo')->nullable();
+            $table->string('light_logo')->nullable();
+            $table->string('favicon')->nullable();
+            $table->string('primary_color')->nullable();
             $table->foreignId('company_id')->constrained();
             $table->timestamps();
         });
@@ -25,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('designations');
+        Schema::dropIfExists('generals');
     }
 };

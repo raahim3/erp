@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\General;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -86,6 +87,11 @@ class RegisterController extends Controller
         $role->name = 'Admin';
         $role->company_id = $company->id;
         $role->save();
+
+        $general = new General();
+        $general->title = $data['company_name'];
+        $general->company_id = $company->id;
+        $general->save();
 
         return User::create([
             'first_name' => $data['first_name'],

@@ -9,7 +9,7 @@
                 <li class="menu-title">Main</li>
 
                 <li>
-                    <a href="index.html" class="waves-effect">
+                    <a href="{{ route('home') }}" class="waves-effect">
                         <i class="mdi mdi-view-dashboard"></i>
                         <span>Dashboard</span>
                     </a>
@@ -17,7 +17,7 @@
 
                 <li >
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-share-variant"></i>
+                        <i class="mdi mdi-office-building"></i>
                         <span>Departments</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
@@ -27,7 +27,7 @@
                 </li>
                 <li >
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-share-variant"></i>
+                        <i class="mdi mdi-badge-account-outline"></i>
                         <span>Designations</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
@@ -38,7 +38,7 @@
 
                 <li >
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-share-variant"></i>
+                        <i class="mdi mdi-shield-account-outline"></i>
                         <span>Roles</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
@@ -49,12 +49,22 @@
 
                 <li >
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-share-variant"></i>
+                        <i class="mdi mdi-account-multiple-outline"></i>
                         <span>Employees</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
                         <li><a href="{{ route('employees.index') }}">All Employees</a></li>
                         <li><a href="{{ route('employees.create') }}">Create Employee</a></li>
+                    </ul>
+                </li>
+
+                <li >
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="{{ route('general.index') }}">General</a></li>
                     </ul>
                 </li>
 
