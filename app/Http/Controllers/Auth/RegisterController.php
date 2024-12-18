@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Designation;
 use App\Models\General;
 use App\Models\Role;
+use App\Models\Smtp;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -92,6 +93,10 @@ class RegisterController extends Controller
         $general->title = $data['company_name'];
         $general->company_id = $company->id;
         $general->save();
+
+        $smtp = new Smtp();
+        $smtp->company_id = $company->id;
+        $smtp->save();
 
         return User::create([
             'first_name' => $data['first_name'],

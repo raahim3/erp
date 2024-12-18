@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 17, 2024 at 06:09 PM
+-- Generation Time: Dec 18, 2024 at 06:11 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.14
 
@@ -213,7 +213,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (21, '2024_12_15_154735_create_departments_table', 1),
 (22, '2024_12_15_155025_create_designations_table', 1),
 (23, '2024_12_15_155026_create_users_table', 1),
-(24, '2024_12_17_162828_create_generals_table', 1);
+(24, '2024_12_17_162828_create_generals_table', 1),
+(26, '2024_12_18_163120_create_smtps_table', 2);
 
 -- --------------------------------------------------------
 
@@ -268,7 +269,36 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('HJ1kZpFG6MNRgEZaB3T7tb4HZOrrNNLCc0nwsa0X', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiQzE2b052YjgyeEZRbG52OUlmRkJYenV4M2lmc0FUcHZIOUpnaWhqRSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHBzOi8vZXJwLnRlc3QvaG9tZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1734458943);
+('JX28xvSNIx3kdFeWBXRw13VyAbTAHRtaj4rjj8Ov', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTnoyRWdHY2J1amhJeTByYVVMaGI2d0pwZWFmaFFQTlVLVTFXYTVTTiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTg6Imh0dHA6Ly9lcnAudGVzdDo5MCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1734539305),
+('wK444QITcSJxokHveWpv4q21I4krEtkvItykFUnP', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoidGFkNzN6c2ZuWmlHbWp5QmVSZ3lqMTI5bWJudndiZEFmUjJYOUZ2UCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHBzOi8vZXJwLnRlc3QvZW1wbG95ZWVzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjQ6ImF1dGgiO2E6MTp7czoyMToicGFzc3dvcmRfY29uZmlybWVkX2F0IjtpOjE3MzQ1MzkzMTc7fX0=', 1734543175);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `smtps`
+--
+
+CREATE TABLE `smtps` (
+  `id` bigint UNSIGNED NOT NULL,
+  `from_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `from_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `smtp_driver` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `smtp_host` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `smtp_port` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `smtp_encryption` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `smtp_username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `smtp_password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `smtps`
+--
+
+INSERT INTO `smtps` (`id`, `from_name`, `from_email`, `smtp_driver`, `smtp_host`, `smtp_port`, `smtp_encryption`, `smtp_username`, `smtp_password`, `company_id`, `created_at`, `updated_at`) VALUES
+(1, 'Muhammad Rahim', 'erp@rahimcodevibes.com', 'smtp', 'mail.rahimcodevibes.com', '465', 'ssl', 'erp@rahimcodevibes.com', '?7&VDAnhF&;a', 1, NULL, '2024-12-18 12:30:39');
 
 -- --------------------------------------------------------
 
@@ -397,6 +427,13 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Indexes for table `smtps`
+--
+ALTER TABLE `smtps`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `smtps_company_id_foreign` (`company_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -451,13 +488,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `smtps`
+--
+ALTER TABLE `smtps`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -492,6 +535,12 @@ ALTER TABLE `generals`
 --
 ALTER TABLE `roles`
   ADD CONSTRAINT `roles_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`);
+
+--
+-- Constraints for table `smtps`
+--
+ALTER TABLE `smtps`
+  ADD CONSTRAINT `smtps_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`);
 
 --
 -- Constraints for table `users`

@@ -65,6 +65,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
                         <li><a href="{{ route('general.index') }}">General</a></li>
+                        <li><a href="{{ route('smtp.index') }}">SMTP Configuration</a></li>
                     </ul>
                 </li>
 

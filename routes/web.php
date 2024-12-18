@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{DepartmentController, DesignationController, EmployeeController, GeneralController, HomeController, RoleController};
+use App\Http\Controllers\{DepartmentController, DesignationController, EmployeeController, GeneralController, HomeController, RoleController, SmtpController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +19,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('designations', DesignationController::class);
     Route::resource('employees', EmployeeController::class);
     Route::resource('settings/general', GeneralController::class);
+    Route::resource('settings/smtp', SmtpController::class);
+    Route::post('settings/smtp/test', [SmtpController::class, 'test'])->name('smtp.test');
 });
