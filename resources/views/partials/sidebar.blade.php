@@ -60,6 +60,16 @@
 
                 <li >
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-account-multiple-outline"></i>
+                        <span>Attendance</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="{{ route('attendance.index') }}">Attendance</a></li>
+                    </ul>
+                </li>
+
+                <li >
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-cog"></i>
                         <span>Settings</span>
                     </a>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 18, 2024 at 06:11 PM
+-- Generation Time: Dec 19, 2024 at 05:57 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.14
 
@@ -20,6 +20,34 @@ SET time_zone = "+00:00";
 --
 -- Database: `erp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attendances`
+--
+
+CREATE TABLE `attendances` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `company_id` bigint UNSIGNED NOT NULL,
+  `punch_in` datetime DEFAULT NULL,
+  `punch_out` datetime DEFAULT NULL,
+  `production_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` date NOT NULL,
+  `status` enum('0','1','2') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `attendances`
+--
+
+INSERT INTO `attendances` (`id`, `user_id`, `company_id`, `punch_in`, `punch_out`, `production_time`, `date`, `status`, `notes`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, NULL, NULL, NULL, '2024-12-19', '0', NULL, '2024-12-19 12:08:32', '2024-12-19 12:08:32'),
+(2, 2, 1, NULL, NULL, NULL, '2024-12-19', '0', NULL, '2024-12-19 12:08:32', '2024-12-19 12:08:32');
 
 -- --------------------------------------------------------
 
@@ -85,7 +113,8 @@ CREATE TABLE `departments` (
 --
 
 INSERT INTO `departments` (`id`, `name`, `description`, `company_id`, `created_at`, `updated_at`) VALUES
-(1, 'Ownership', NULL, 1, '2024-12-17 13:07:58', '2024-12-17 13:07:58');
+(1, 'Ownership', NULL, 1, '2024-12-17 13:07:58', '2024-12-17 13:07:58'),
+(2, 'Human Resource', 'N/A', 1, '2024-12-19 11:55:11', '2024-12-19 11:55:11');
 
 -- --------------------------------------------------------
 
@@ -107,7 +136,8 @@ CREATE TABLE `designations` (
 --
 
 INSERT INTO `designations` (`id`, `name`, `description`, `company_id`, `created_at`, `updated_at`) VALUES
-(1, 'Ceo / Founder', NULL, 1, '2024-12-17 13:07:58', '2024-12-17 13:07:58');
+(1, 'Ceo / Founder', NULL, 1, '2024-12-17 13:07:58', '2024-12-17 13:07:58'),
+(2, 'HR', 'N/A', 1, '2024-12-19 11:55:32', '2024-12-19 11:55:32');
 
 -- --------------------------------------------------------
 
@@ -214,7 +244,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (22, '2024_12_15_155025_create_designations_table', 1),
 (23, '2024_12_15_155026_create_users_table', 1),
 (24, '2024_12_17_162828_create_generals_table', 1),
-(26, '2024_12_18_163120_create_smtps_table', 2);
+(26, '2024_12_18_163120_create_smtps_table', 2),
+(29, '2024_12_19_163348_create_attendances_table', 3);
 
 -- --------------------------------------------------------
 
@@ -247,7 +278,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `company_id`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 1, '2024-12-17 13:07:58', '2024-12-17 13:07:58');
+(1, 'Admin', 1, '2024-12-17 13:07:58', '2024-12-17 13:07:58'),
+(2, 'Hr', 1, '2024-12-19 11:55:55', '2024-12-19 11:55:55');
 
 -- --------------------------------------------------------
 
@@ -269,8 +301,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('JX28xvSNIx3kdFeWBXRw13VyAbTAHRtaj4rjj8Ov', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTnoyRWdHY2J1amhJeTByYVVMaGI2d0pwZWFmaFFQTlVLVTFXYTVTTiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTg6Imh0dHA6Ly9lcnAudGVzdDo5MCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1734539305),
-('wK444QITcSJxokHveWpv4q21I4krEtkvItykFUnP', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoidGFkNzN6c2ZuWmlHbWp5QmVSZ3lqMTI5bWJudndiZEFmUjJYOUZ2UCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHBzOi8vZXJwLnRlc3QvZW1wbG95ZWVzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjQ6ImF1dGgiO2E6MTp7czoyMToicGFzc3dvcmRfY29uZmlybWVkX2F0IjtpOjE3MzQ1MzkzMTc7fX0=', 1734543175);
+('12sJsDXve0qoBQD3ZrqR58OB1iA4i6YfKmNIgqWV', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiWWI1RjlTNDhCbXNWS3hwUXROOXBPTlh3VUhTWHhmcUc2ZlRRakVJNyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHBzOi8vZXJwLnRlc3QvYXR0ZW5kYW5jZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzM0NjI1MzM4O319', 1734630953),
+('4LekDgmkEBz2VMk6bob51MiWDr8curmYfWlQflZZ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiR0xYVHUxU0RYeGxJdXlUbGZCT0YzWW05QmZDTDIyUno5aG9JeXczWCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTg6Imh0dHA6Ly9lcnAudGVzdDo5MCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1734625300);
 
 -- --------------------------------------------------------
 
@@ -332,11 +364,20 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `profile`, `first_name`, `last_name`, `phone`, `name`, `email`, `email_verified_at`, `password`, `hired_at`, `role_id`, `department_id`, `designation_id`, `company_id`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Muhammad', 'Rahim', NULL, 'Muhammad Rahim', 'raahim32006@gmail.com', NULL, '$2y$12$eN82evh9fy46PPQmuK49POZC3iOhjt0hQmB6/uuoEC1Pke4tMt7CG', NULL, 1, 1, 1, 1, '1', NULL, '2024-12-17 13:07:59', '2024-12-17 13:07:59');
+(1, NULL, 'Muhammad', 'Rahim', NULL, 'Muhammad Rahim', 'raahim32006@gmail.com', NULL, '$2y$12$eN82evh9fy46PPQmuK49POZC3iOhjt0hQmB6/uuoEC1Pke4tMt7CG', NULL, 1, 1, 1, 1, '1', NULL, '2024-12-17 13:07:59', '2024-12-17 13:07:59'),
+(2, NULL, 'Muhammad', 'Faham', '00000000', 'Muhammad Faham', 'faham@gmail.com', NULL, '$2y$12$z//IErWLUlIyGmXT4MuczuM4rzpEzSObxknYeXk5BnMP2MQZTWxrS', '2024-12-19 21:56:00', 2, 2, 2, 1, '1', NULL, '2024-12-19 11:56:56', '2024-12-19 11:56:56');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `attendances`
+--
+ALTER TABLE `attendances`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `attendances_user_id_foreign` (`user_id`),
+  ADD KEY `attendances_company_id_foreign` (`company_id`);
 
 --
 -- Indexes for table `cache`
@@ -449,6 +490,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `attendances`
+--
+ALTER TABLE `attendances`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
@@ -458,13 +505,13 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `designations`
 --
 ALTER TABLE `designations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -488,13 +535,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `smtps`
@@ -506,11 +553,18 @@ ALTER TABLE `smtps`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `attendances`
+--
+ALTER TABLE `attendances`
+  ADD CONSTRAINT `attendances_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`),
+  ADD CONSTRAINT `attendances_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `departments`
