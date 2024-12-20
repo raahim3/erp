@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 19, 2024 at 05:57 PM
+-- Generation Time: Dec 20, 2024 at 06:56 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.14
 
@@ -31,8 +31,8 @@ CREATE TABLE `attendances` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
   `company_id` bigint UNSIGNED NOT NULL,
-  `punch_in` datetime DEFAULT NULL,
-  `punch_out` datetime DEFAULT NULL,
+  `punch_in` time DEFAULT NULL,
+  `punch_out` time DEFAULT NULL,
   `production_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date` date NOT NULL,
   `status` enum('0','1','2') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
@@ -46,8 +46,8 @@ CREATE TABLE `attendances` (
 --
 
 INSERT INTO `attendances` (`id`, `user_id`, `company_id`, `punch_in`, `punch_out`, `production_time`, `date`, `status`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, NULL, NULL, NULL, '2024-12-19', '0', NULL, '2024-12-19 12:08:32', '2024-12-19 12:08:32'),
-(2, 2, 1, NULL, NULL, NULL, '2024-12-19', '0', NULL, '2024-12-19 12:08:32', '2024-12-19 12:08:32');
+(1, 1, 1, NULL, NULL, NULL, '2024-12-20', '0', NULL, '2024-12-20 12:32:45', '2024-12-20 12:32:45'),
+(2, 2, 1, '23:53:07', NULL, NULL, '2024-12-20', '1', NULL, '2024-12-20 12:32:45', '2024-12-20 18:53:07');
 
 -- --------------------------------------------------------
 
@@ -245,7 +245,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (23, '2024_12_15_155026_create_users_table', 1),
 (24, '2024_12_17_162828_create_generals_table', 1),
 (26, '2024_12_18_163120_create_smtps_table', 2),
-(29, '2024_12_19_163348_create_attendances_table', 3);
+(30, '2024_12_19_163348_create_attendances_table', 3);
 
 -- --------------------------------------------------------
 
@@ -301,8 +301,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('12sJsDXve0qoBQD3ZrqR58OB1iA4i6YfKmNIgqWV', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiWWI1RjlTNDhCbXNWS3hwUXROOXBPTlh3VUhTWHhmcUc2ZlRRakVJNyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHBzOi8vZXJwLnRlc3QvYXR0ZW5kYW5jZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzM0NjI1MzM4O319', 1734630953),
-('4LekDgmkEBz2VMk6bob51MiWDr8curmYfWlQflZZ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiR0xYVHUxU0RYeGxJdXlUbGZCT0YzWW05QmZDTDIyUno5aG9JeXczWCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTg6Imh0dHA6Ly9lcnAudGVzdDo5MCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1734625300);
+('uVLcdvKOavg229sbrlNwBZmT7qnZTwtWtIG7tnoy', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiN2MxM3M2Q3FxR05PNGVLM2ZwSEZKWmZOd1FFRlBMdUFYSEhTSUFxSSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHBzOi8vZXJwLnRlc3QvaG9tZSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzM0NzE0NDgxO319', 1734720792);
 
 -- --------------------------------------------------------
 
@@ -535,7 +534,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `roles`
