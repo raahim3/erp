@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="col-md-6 d-flex justify-content-end align-items-center">
-                <button class="btn btn-primary" ><i class="mdi mdi-refresh"></i> Refresh</button>
+                <button class="btn btn-primary" id="refresh"><i class="mdi mdi-refresh"></i> Refresh</button>
             </div>
         </div>
 
@@ -120,4 +120,16 @@
 @endsection
 @section('script')
     {!! $dataTable->scripts() !!}
+
+    <script>
+        $(document).ready(function(){
+            $(document).on('click','#refresh', function(){
+                $('#refresh').html('<i class="mdi mdi-spin mdi-loading"></i> Refreshing...');
+                $('#attendance-table').DataTable().ajax.reload();
+                setTimeout(() => {
+                    $('#refresh').html('<i class="mdi mdi-refresh"></i> Refresh');
+                }, 1000);
+            });
+        });
+    </script>
 @endsection

@@ -20,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('employees', EmployeeController::class);
     Route::get('attendance',[AttendanceController::class,'index'])->name('attendance.index');
     Route::get('attendance/create',[AttendanceController::class,'createAttendance'])->name('attendance.create');
+    Route::post('punch_in',[AttendanceController::class,'punch_in'])->name('punch.in');
     Route::resource('settings/general', GeneralController::class);
     Route::resource('settings/smtp', SmtpController::class);
     Route::post('settings/smtp/test', [SmtpController::class, 'test'])->name('smtp.test');

@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Attendance;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -33,10 +34,13 @@ class AttendanceDataTable extends DataTable
             return $query->production_time ?? '-';
         })
         ->addColumn('punch_in', function ($query) {
-            return $query->punch_in ?? '-';
+            return $query->punch_in ? Carbon::parse($query->punch_in)->format('h:i:s A') : '-';
         })
         ->addColumn('punch_out', function ($query) {
-            return $query->punch_out ?? '-';
+            return $query->punch_out ? Carbon::parse($query->punch_out)->format('h:i:s A') : '-';
+        })
+        ->addColumn('date', function ($query) {
+            return Carbon::parse($query->date)->format('d M Y');
         })
         ->addColumn('behavior', function ($query) {
             return '-';
@@ -64,7 +68,7 @@ class AttendanceDataTable extends DataTable
     public function query(Attendance $model): QueryBuilder
     {
         $company_id = auth()->user()->company_id;
-        return $model->where('company_id', $company_id)->with('user')->newQuery();
+        return $model->where('company_id', $company_id)->where('date', date('Y-m-d'))->with('user')->newQuery();
     }
 
     /**

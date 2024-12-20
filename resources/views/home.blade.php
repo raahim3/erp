@@ -15,17 +15,8 @@
                         </ol>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="state-information d-none d-sm-block">
-                    <div class="state-graph">
-                        <div id="header-chart-1" data-colors='["--bs-primary"]'></div>
-                        <div class="info">Balance $ 2,317</div>
-                    </div>
-                    <div class="state-graph">
-                        <div id="header-chart-2" data-colors='["--bs-info"]'></div>
-                        <div class="info">Item Sold 1230</div>
-                    </div>
-                </div>
+            <div class="col-sm-6 d-flex justify-content-end align-items-center">
+                <button class="btn {{ $is_punch_in ? 'btn-warning' : "btn-success" }} w-md" data-id="{{ $is_punch_in ? 0 : 1 }}" id="punch_in_out">{{ $is_punch_in ? 'Punch Out' : "Punch In" }}</button>
             </div>
         </div>
         <!-- end page title -->
@@ -527,4 +518,39 @@
 
 
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#punch_in_out').on('click', function() {
+                $(this).prop('disabled', true);
+                $(this).html('<i class="mdi mdi-spin mdi-loading"></i> Processing...');
+                var _this = $(this);
+                var status = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('punch.in') }}",
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.status == 200) {
+                            _this.prop('disabled', false);
+                            if(status == 1) {
+                                _this.html('Punch Out');
+                                _this.removeClass('btn-success').addClass('btn-warning');
+                                _this.data('id', 0);
+                            }else{
+                                _this.html('Punch In');
+                                _this.removeClass('btn-warning').addClass('btn-success');
+                                _this.data('id', 1);
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
