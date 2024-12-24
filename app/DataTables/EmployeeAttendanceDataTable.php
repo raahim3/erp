@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Attendance;
+use App\Models\EmployeeAttendance;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -13,7 +14,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class AttendanceDataTable extends DataTable
+class EmployeeAttendanceDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -72,7 +73,7 @@ class AttendanceDataTable extends DataTable
             }
         })
         ->addColumn('action', function ($query) {
-            return '<a href="javascript:void(0)" data-id="' . $query->id . '" data-date="' . $query->date . '" data-status="' . $query->status . '" data-behavior="' . $query->punch_in_behavior . '" data-employee="' . $query->user_id . '" data-punch-in="' . $query->punch_in . '" data-punch-out="' . $query->punch_out . '" class="edit btn btn-primary btn-sm edit_attendance">Edit</a>';
+            return '<a href="javascript:void(0)" data-id="' . $query->id . '" data-date="' . $query->date . '" data-status="' . $query->status . '" data-behavior="' . $query->punch_in_behavior . '" data-employee="' . $query->user->name . '" data-punch-in="' . $query->punch_in . '" data-punch-out="' . $query->punch_out . '" class="edit btn btn-primary btn-sm edit_attendance">Edit</a>';
         })
         ->rawColumns(['employee','status','behavior' ,'action'])
         ->setRowId('id');
@@ -83,26 +84,8 @@ class AttendanceDataTable extends DataTable
      */
     public function query(Attendance $model): QueryBuilder
     {
-        $company_id = auth()->user()->company_id;
-        $query = $model->where('company_id', $company_id)->with('user');
-        
-        if ($this->search_emp) {
-            $query->where('user_id', $this->search_emp);
-            // dd($this->search_emp);
-        }
-        if ($this->search_date) {
-            $query->where('date', $this->search_date);
-        } else {
-            $query->where('date', now()->toDateString());
-        }
-        if ($this->search_status) {
-            $query->where('status', $this->search_status);
-        }
-        if ($this->search_behavior) {
-            $query->where('punch_in_behavior', $this->search_behavior);
-        }
-
-        return $query->newQuery();
+        $emp_id = $this->employee_id;
+        return $model->where('user_id', $emp_id)->whereMonth('created_at', Carbon::now()->month)->latest()->newQuery();
     }
 
     /**
@@ -111,7 +94,7 @@ class AttendanceDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('attendance-table')
+                    ->setTableId('employeeattendance-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -148,6 +131,6 @@ class AttendanceDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Attendance_' . date('YmdHis');
+        return 'EmployeeAttendance_' . date('YmdHis');
     }
 }

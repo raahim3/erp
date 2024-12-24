@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Crypt;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -40,7 +41,9 @@ class EmployeeDataTable extends DataTable
                 return $query->hired_at ?? 'N/A';
             })
             ->addColumn('action', function ($query) {
+                $en_id = Crypt::encrypt($query->id);
                 return '<div class="d-flex gap-2">
+                            <a href="'. route('attendance.employee', $en_id) .'" class="edit btn btn-primary btn-sm">Attendance</a>
                             <a href="'. route('employees.edit', $query->id) .'" class="edit btn btn-primary btn-sm">Edit</a>
                             <form action="'. route('employees.destroy', $query->id) .'" method="POST">
                             '. csrf_field() .

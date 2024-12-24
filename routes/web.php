@@ -19,10 +19,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('designations', DesignationController::class);
     Route::resource('employees', EmployeeController::class);
     Route::get('attendance',[AttendanceController::class,'index'])->name('attendance.index');
-    Route::get('attendance/create',[AttendanceController::class,'createAttendance'])->name('attendance.create');
+    Route::get('attendance/{employee_id}',[AttendanceController::class,'employee_attendance'])->name('attendance.employee');
+    Route::get('create/attendance',[AttendanceController::class,'createAttendance'])->name('attendance.create');
     Route::post('punch_in',[AttendanceController::class,'punch_in'])->name('punch.in');
     Route::post('get/attendance/data', [AttendanceController::class, 'getAttendanceData'])->name('get.attendance.data');
-    Route::get('attendance/{id}/edit',[AttendanceController::class,'edit'])->name('attendances.edit');
+    Route::post('attendance/update',[AttendanceController::class,'update'])->name('attendances.update');
     Route::resource('settings/general', GeneralController::class);
     Route::resource('settings/smtp', SmtpController::class);
     Route::post('settings/smtp/test', [SmtpController::class, 'test'])->name('smtp.test');

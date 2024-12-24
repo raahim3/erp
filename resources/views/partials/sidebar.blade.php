@@ -57,6 +57,13 @@
                         <li><a href="{{ route('employees.create') }}">Create Employee</a></li>
                     </ul>
                 </li>
+                <li>
+                    @php( $bcryp_id = \Illuminate\Support\Facades\Crypt::encrypt(auth()->user()->id) )
+                    <a href="{{ route('attendance.employee',$bcryp_id) }}" class="waves-effect">
+                        <i class="mdi mdi-calendar-clock"></i>
+                        <span>Attendance</span>
+                    </a>
+                </li>
 
                 <li >
                     <a href="javascript: void(0);" class="has-arrow waves-effect">

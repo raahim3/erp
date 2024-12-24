@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\AttendanceDataTable;
+use App\DataTables\EmployeeAttendanceDataTable;
 use App\Models\Attendance;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class AttendanceController extends Controller
 {
@@ -42,11 +44,15 @@ class AttendanceController extends Controller
     public function punch_in(Request $request)
     {
         $attendance = Attendance::with('user')->where(['user_id' => auth()->user()->id , 'date' => date('Y-m-d')])->first();
+        if(!$attendance)
+        {
+            return response()->json(['error' => 'You did not punch in today']);
+        }
         if($request->status == 1){
             if($attendance->punch_in){
                 return response()->json(['error' => 'You did punch in already']);
             }
-            $attendance->punch_in = date('H:i:s');
+            $attendance->punch_in = date('H:i');
             $attendance->status = '1';
             $shift_start = strtotime($attendance->user->shift_start);
             $punch_in = strtotime($attendance->punch_in);
@@ -62,11 +68,11 @@ class AttendanceController extends Controller
             $message = "Punch In Time Added Successfully";
 
         }else{
-            $attendance->punch_out = date('H:i:s');
+            $attendance->punch_out = date('H:i');
             
-            $punchIn = Carbon::createFromFormat('H:i:s', $attendance->punch_in);
-            $punchOut = Carbon::createFromFormat('H:i:s', $attendance->punch_out);
-            $attendance->production_time = $punchOut->diff($punchIn)->format('%H:%I:%S');
+            $punchIn = Carbon::createFromFormat('H:i', $attendance->punch_in);
+            $punchOut = Carbon::createFromFormat('H:i', $attendance->punch_out);
+            $attendance->production_time = $punchOut->diff($punchIn)->format('%H:%I');
             $message = "You did punch out successfully";
         }
         $attendance->update();
@@ -80,8 +86,33 @@ class AttendanceController extends Controller
         $leave_count = $all_attendance->where('status', 2)->where('date', date('Y-m-d'))->count();
         return response()->json(['present_count' => $present_count , 'absent_count' => $absent_count , 'leave_count' => $leave_count]); 
     }
-    public function edit($id)
+    public function update(Request $request)
     {
-        
+        $attendance = Attendance::find($request->id);
+        $attendance->status = $request->status;
+        $attendance->punch_in_behavior = $request->behavior;
+        $attendance->punch_in = $request->punch_in;
+        $attendance->punch_out = $request->punch_out;
+        if($attendance->punch_in && $attendance->punch_out)
+        {
+            // dd($attendance);
+            $punchIn = Carbon::createFromFormat('H:i', $attendance->punch_in);
+            $punchOut = Carbon::createFromFormat('H:i', $attendance->punch_out);
+            $attendance->production_time = $punchOut->diff($punchIn)->format('%H:%I');
+        }
+        $attendance->update();
+        if($request->is_edit == 1)
+        {
+            return redirect()->back()->with('success', 'Attendance Updated Successfully');
+        }else{
+
+            return redirect()->route('attendance.index')->with('success', 'Attendance Updated Successfully');
+        }
+    }
+
+    public function employee_attendance(EmployeeAttendanceDataTable $dataTable , $employee_id)
+    {
+        $id = Crypt::decrypt($employee_id);
+        return $dataTable->with(['employee_id' => $id])->render('attendance.employee_attendance');
     }
 }
