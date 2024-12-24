@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\EmployeeDataTable;
+use App\Models\Attendance;
 use App\Models\Department;
 use App\Models\Designation;
 use App\Models\Role;
@@ -45,6 +46,8 @@ class EmployeeController extends Controller
             'designation_id' => 'required',
             'password' => 'required',
             'hired_at' => 'required',
+            'shift_start' => 'required',
+            'shift_end' => 'required',
             'status' => 'required',
         ]);
 
@@ -67,6 +70,8 @@ class EmployeeController extends Controller
             'designation_id' => $request->designation_id,
             'password' => bcrypt($request->password),
             'hired_at' => $request->hired_at,
+            'shift_start' => $request->shift_start,
+            'shift_end' => $request->shift_end,
             'status' => $request->status,
             'company_id' => auth()->user()->company_id
         ]);
@@ -108,6 +113,8 @@ class EmployeeController extends Controller
             'department_id' => 'required',
             'designation_id' => 'required',
             'hired_at' => 'required',
+            'shift_start' => 'required',
+            'shift_end' => 'required',
             'status' => 'required',
         ]);
         
@@ -121,6 +128,8 @@ class EmployeeController extends Controller
             'department_id' => $request->department_id,
             'designation_id' => $request->designation_id,
             'hired_at' => $request->hired_at,
+            'shift_start' => $request->shift_start,
+            'shift_end' => $request->shift_end,
             'status' => $request->status,
         ]);
         
@@ -154,4 +163,5 @@ class EmployeeController extends Controller
         $user->delete();
         return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');
     }
+
 }

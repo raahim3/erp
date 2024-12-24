@@ -548,7 +548,19 @@
                                 _this.data('id', 1);
                             }
                         }
-                    }
+                        else{
+                            _this.prop('disabled', false);
+                            _this.html('Punch In');
+                            _this.removeClass('btn-warning').addClass('btn-success');
+                            alert(response.error);
+                        }
+                    },
+                    error:function(response){
+                        _this.prop('disabled', false);
+                        _this.html('Punch In');
+                        _this.removeClass('btn-warning').addClass('btn-success');
+                        alert(response.error);
+                    }   
                 });
             });
         });

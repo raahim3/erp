@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $is_punch_in = Attendance::where(['user_id' => auth()->user()->id , 'date' => date('Y-m-d')])->whereNotNull('punch_in')->exists();
+        $is_punch_in = Attendance::where(['user_id' => auth()->user()->id , 'date' => date('Y-m-d')])->whereNotNull('punch_in')->whereNull('punch_out')->exists();
         return view('home',compact('is_punch_in'));
     }
 }

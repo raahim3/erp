@@ -118,6 +118,20 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="shift_start">Shift Start</label>
+                                <input type="time" name="shift_start" value="{{ $user->shift_start }}" class="form-control" id="shift_start">
+                                @error('shift_start')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="shift_end">Shift End</label>
+                                <input type="time" name="shift_end" value="{{ $user->shift_end }}" class="form-control" id="shift_end">
+                                @error('shift_end')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Status</label>
                                 <select name="status" class="form-control" id="">

@@ -21,6 +21,9 @@ return new class extends Migration
             $table->date('date');
             $table->enum('status', ['0', '1', '2'])->default('0');
             $table->text('notes')->nullable();
+            $table->time('shift_start')->nullable();
+            $table->time('shift_end')->nullable();
+            $table->string('punch_in_behavior')->nullable();
             $table->timestamps();
         });
     }

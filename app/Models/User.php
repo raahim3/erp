@@ -30,7 +30,10 @@ class User extends Authenticatable
         'role_id',
         'company_id',
         'designation_id',
-        'department_id'
+        'department_id',
+        'shift_start',
+        'punch_in_behavior',
+        'shift_end'
     ];
 
     /**

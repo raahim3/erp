@@ -43,7 +43,20 @@ class AttendanceDataTable extends DataTable
             return Carbon::parse($query->date)->format('d M Y');
         })
         ->addColumn('behavior', function ($query) {
-            return '-';
+            switch ($query->punch_in_behavior) {
+                case 'late':
+                    return '<span class="badge bg-danger">Late</span>';
+                    break;
+                case 'regular':
+                    return '<span class="badge bg-success">Regular</span>';
+                    break;
+                case 'early':
+                    return '<span class="badge bg-warning">Early</span>';
+                    break;
+                default:
+                    return '-';
+                    break;
+            }
         })
         ->addColumn('status', function ($query) {
             switch ($query->status) {
@@ -58,7 +71,10 @@ class AttendanceDataTable extends DataTable
                     break;
             }
         })
-        ->rawColumns(['employee','status'])
+        ->addColumn('action', function ($query) {
+            return '<a href="'. route('attendances.edit', $query->id) .'" class="edit btn btn-primary btn-sm">Edit</a>';
+        })
+        ->rawColumns(['employee','status','behavior' ,'action'])
         ->setRowId('id');
     }
 
@@ -68,7 +84,25 @@ class AttendanceDataTable extends DataTable
     public function query(Attendance $model): QueryBuilder
     {
         $company_id = auth()->user()->company_id;
-        return $model->where('company_id', $company_id)->where('date', date('Y-m-d'))->with('user')->newQuery();
+        $query = $model->where('company_id', $company_id)->with('user');
+        
+        if ($this->search_emp) {
+            $query->where('user_id', $this->search_emp);
+            // dd($this->search_emp);
+        }
+        if ($this->search_date) {
+            $query->where('date', $this->search_date);
+        } else {
+            $query->where('date', now()->toDateString());
+        }
+        if ($this->search_status) {
+            $query->where('status', $this->search_status);
+        }
+        if ($this->search_behavior) {
+            $query->where('punch_in_behavior', $this->search_behavior);
+        }
+
+        return $query->newQuery();
     }
 
     /**
@@ -105,6 +139,7 @@ class AttendanceDataTable extends DataTable
             Column::make('production_time'),
             Column::make('status'),
             Column::make('behavior'),
+            Column::make('action'),
         ];
     }
 

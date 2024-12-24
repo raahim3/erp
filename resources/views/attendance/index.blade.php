@@ -19,7 +19,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xl-3 col-sm-6">
+            <div class="col-xl-4 col-sm-6">
                 <div class="card mini-stat bg-primary">
                     <div class="card-body mini-stat-img">
                         <div class="mini-stat-icon">
@@ -27,12 +27,12 @@
                         </div>
                         <div class="text-white">
                             <h6 class="text-uppercase mb-3 font-size-16 text-white">Presents</h6>
-                            <h2 class="mb-4 text-white">0</h2>
+                            <h2 class="mb-4 text-white" id="present">{{ $present_count }}</h2>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6">
+            <div class="col-xl-4 col-sm-6">
                 <div class="card mini-stat bg-primary">
                     <div class="card-body mini-stat-img">
                         <div class="mini-stat-icon">
@@ -40,12 +40,12 @@
                         </div>
                         <div class="text-white">
                             <h6 class="text-uppercase mb-3 font-size-16 text-white">Absent</h6>
-                            <h2 class="mb-4 text-white">0</h2>
+                            <h2 class="mb-4 text-white" id="absent">{{ $absent_count }}</h2>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6">
+            <div class="col-xl-4 col-sm-6">
                 <div class="card mini-stat bg-primary">
                     <div class="card-body mini-stat-img">
                         <div class="mini-stat-icon">
@@ -53,20 +53,7 @@
                         </div>
                         <div class="text-white">
                             <h6 class="text-uppercase mb-3 font-size-16 text-white">On Leave</h6>
-                            <h2 class="mb-4 text-white">0</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6">
-                <div class="card mini-stat bg-primary">
-                    <div class="card-body mini-stat-img">
-                        <div class="mini-stat-icon">
-                            <i class="mdi mdi-briefcase-check float-end"></i>
-                        </div>
-                        <div class="text-white">
-                            <h6 class="text-uppercase mb-3 font-size-16 text-white">Un Informed</h6>
-                            <h2 class="mb-4 text-white">0</h2>
+                            <h2 class="mb-4 text-white" id="leave">{{ $leave_count }}</h2>
                         </div>
                     </div>
                 </div>
@@ -79,7 +66,7 @@
                     <div class="d-flex gap-2">
                         <div>
                             <label for="">Employees</label>
-                            <select name="status" class="form-select" id="">
+                            <select name="employee" class="form-select" id="employee_filter">
                                 <option value="all">All</option>
                                 @foreach ($employees as $employee)
                                     <option value="{{ $employee->id }}">{{ $employee->name }}</option>
@@ -88,21 +75,20 @@
                         </div>
                         <div>
                             <label for="">Date</label>
-                            <input type="date" name="" id="" class="form-control">
+                            <input type="date" name="date" id="date_filter" class="form-control">
                         </div>
                         <div>
                             <label for="">Status</label>
-                            <select name="status" class="form-select" id="">
+                            <select name="status" class="form-select" id="status_filter">
                                 <option value="all">All</option>
-                                <option value="present">Present</option>
-                                <option value="absent">Absent</option>
-                                <option value="leave">On Leave</option>
-                                <option value="uninformed">Un Informed</option>
+                                <option value="1">Present</option>
+                                <option value="0">Absent</option>
+                                <option value="2">On Leave</option>
                             </select>
                         </div>
                         <div>
                             <label for="">Behavior</label>
-                            <select name="status" class="form-select" id="">
+                            <select name="behavior" class="form-select" id="behavior_filter">
                                 <option value="all">All</option>
                                 <option value="late">Late</option>
                                 <option value="early">Early</option>
@@ -123,12 +109,38 @@
 
     <script>
         $(document).ready(function(){
+            var dataTable = $('#attendance-table').DataTable();
+            function reloadTable() {
+                dataTable.ajax.reload();
+            }
+
+                // Attach change event to filters
+                $('#employee_filter, #date_filter, #status_filter, #behavior_filter').on('change', function () {
+                    reloadTable();
+                });
+            dataTable.on('preXhr.dt', function (e, settings, data) {
+                data.employee_id = $('#employee_filter').val();
+                data.date = $('#date_filter').val();
+                data.status = $('#status_filter').val();
+                data.behavior = $('#behavior_filter').val();
+            });
             $(document).on('click','#refresh', function(){
                 $('#refresh').html('<i class="mdi mdi-spin mdi-loading"></i> Refreshing...');
-                $('#attendance-table').DataTable().ajax.reload();
-                setTimeout(() => {
-                    $('#refresh').html('<i class="mdi mdi-refresh"></i> Refresh');
-                }, 1000);
+
+                $.ajax({
+                    url: "{{ route('get.attendance.data') }}",
+                    method: 'POST',
+                    data:{
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function(response) {
+                        $('#present').html(response.present_count);
+                        $('#absent').html(response.absent_count);
+                        $('#leave').html(response.leave_count);
+                        $('#attendance-table').DataTable().ajax.reload();
+                        $('#refresh').html('<i class="mdi mdi-refresh"></i> Refresh');
+                    }
+                });
             });
         });
     </script>
