@@ -20,6 +20,7 @@
     <link href="{{ asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
     <link href="https://cdn.jsdelivr.net/npm/jquery-toast-plugin@1.3.2/dist/jquery.toast.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/css/dropify.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <style>
         .dropify-wrapper .dropify-message span.file-icon{
             font-size: 30px !important;
@@ -75,6 +76,8 @@
         <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-toast-plugin@1.3.2/dist/jquery.toast.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dropify@0.2.2/dist/js/dropify.min.js"></script>
+        <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+
         @yield('script')
         <script>
             @if(session('success'))
@@ -105,6 +108,47 @@
             @endif
             $(document).ready(function(){
                 $('.dropify').dropify();
+
+                $('#punch_in_out').on('click', function() {
+                $(this).prop('disabled', true);
+                $(this).html('<i class="mdi mdi-spin mdi-loading"></i> Processing...');
+                var _this = $(this);
+                var status = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('punch.in') }}",
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.status == 200) {
+                            _this.prop('disabled', false);
+                            if(status == 1) {
+                                _this.html('Punch Out');
+                                _this.removeClass('btn-success').addClass('btn-warning');
+                                _this.data('id', 0);
+                            }else{
+                                _this.html('Punch In');
+                                _this.removeClass('btn-warning').addClass('btn-success');
+                                _this.data('id', 1);
+                            }
+                        }
+                        else{
+                            _this.prop('disabled', false);
+                            _this.html('Punch In');
+                            _this.removeClass('btn-warning').addClass('btn-success');
+                            alert(response.error);
+                        }
+                    },
+                    error:function(response){
+                        _this.prop('disabled', false);
+                        _this.html('Punch In');
+                        _this.removeClass('btn-warning').addClass('btn-success');
+                        alert(response.error);
+                    }   
+                });
+            });
             });
         </script>
     </body>

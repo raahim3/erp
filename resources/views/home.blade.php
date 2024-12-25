@@ -523,46 +523,7 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('#punch_in_out').on('click', function() {
-                $(this).prop('disabled', true);
-                $(this).html('<i class="mdi mdi-spin mdi-loading"></i> Processing...');
-                var _this = $(this);
-                var status = $(this).data('id');
-                $.ajax({
-                    url: "{{ route('punch.in') }}",
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        status: status
-                    },
-                    success: function(response) {
-                        if (response.status == 200) {
-                            _this.prop('disabled', false);
-                            if(status == 1) {
-                                _this.html('Punch Out');
-                                _this.removeClass('btn-success').addClass('btn-warning');
-                                _this.data('id', 0);
-                            }else{
-                                _this.html('Punch In');
-                                _this.removeClass('btn-warning').addClass('btn-success');
-                                _this.data('id', 1);
-                            }
-                        }
-                        else{
-                            _this.prop('disabled', false);
-                            _this.html('Punch In');
-                            _this.removeClass('btn-warning').addClass('btn-success');
-                            alert(response.error);
-                        }
-                    },
-                    error:function(response){
-                        _this.prop('disabled', false);
-                        _this.html('Punch In');
-                        _this.removeClass('btn-warning').addClass('btn-success');
-                        alert(response.error);
-                    }   
-                });
-            });
+            
         });
     </script>
 @endsection

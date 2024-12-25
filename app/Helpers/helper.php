@@ -19,3 +19,11 @@ function configureMail($companyId)
     Config::set('mail.from.address', $smtp->from_email);
     Config::set('mail.from.name', $smtp->from_name);
 }
+
+function profileImage($image)
+{
+    if($image && file_exists(public_path('uploads/profile'.'/'.$image))) {
+        return asset('uploads/profile'.'/'.$image);
+    }
+    return asset('default.jpg');
+}

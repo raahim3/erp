@@ -70,9 +70,9 @@ class AttendanceController extends Controller
         }else{
             $attendance->punch_out = date('H:i');
             
-            $punchIn = Carbon::createFromFormat('H:i', $attendance->punch_in);
+            $punchIn = Carbon::createFromFormat('H:i:s', $attendance->punch_in);
             $punchOut = Carbon::createFromFormat('H:i', $attendance->punch_out);
-            $attendance->production_time = $punchOut->diff($punchIn)->format('%H:%I');
+            $attendance->production_time = $punchOut->diff($punchIn)->format('%H:%I:%S');
             $message = "You did punch out successfully";
         }
         $attendance->update();
@@ -82,7 +82,7 @@ class AttendanceController extends Controller
     {
         $all_attendance = Attendance::with('user')->where('company_id', auth()->user()->company_id)->get();
         $present_count = $all_attendance->where('status', 1)->where('date', date('Y-m-d'))->count(); 
-        $absent_count = $all_attendance->where('status', 0)->where('date', date('Y-m-d'))->count(); 
+        $adbsent_count = $all_attendance->where('status', 0)->where('date', date('Y-m-d'))->count(); 
         $leave_count = $all_attendance->where('status', 2)->where('date', date('Y-m-d'))->count();
         return response()->json(['present_count' => $present_count , 'absent_count' => $absent_count , 'leave_count' => $leave_count]); 
     }
@@ -95,10 +95,9 @@ class AttendanceController extends Controller
         $attendance->punch_out = $request->punch_out;
         if($attendance->punch_in && $attendance->punch_out)
         {
-            // dd($attendance);
             $punchIn = Carbon::createFromFormat('H:i', $attendance->punch_in);
-            $punchOut = Carbon::createFromFormat('H:i', $attendance->punch_out);
-            $attendance->production_time = $punchOut->diff($punchIn)->format('%H:%I');
+            $punchOut = Carbon::createFromFormat('H:i:s', $attendance->punch_out);
+            $attendance->production_time = $punchOut->diff($punchIn)->format('%H:%I:%S');
         }
         $attendance->update();
         if($request->is_edit == 1)
@@ -110,9 +109,96 @@ class AttendanceController extends Controller
         }
     }
 
-    public function employee_attendance(EmployeeAttendanceDataTable $dataTable , $employee_id)
+    public function employee_attendance(EmployeeAttendanceDataTable $dataTable , $employee_id, Request $request)
     {
-        $id = Crypt::decrypt($employee_id);
-        return $dataTable->with(['employee_id' => $id])->render('attendance.employee_attendance');
+        try {
+            $id = Crypt::decrypt($employee_id);
+        } catch (\Throwable $th) {
+            return abort(404);
+        }
+        $user = User::find($id);
+        $search_start_date = $request->start_date ?? null;
+        $search_end_date = $request->end_date ?? null;
+        $search_status = $request->status ? ($request->status == 'all' ? null : $request->status) : null;
+        $search_behavior = $request->behavior ? ($request->behavior == 'all' ? null : $request->behavior)    : null;
+        $production_time = 'N/A';
+        $punch_in_time = 'N/A';
+        $is_punch_in = Attendance::where(['user_id' => $user->id , 'date' => date('Y-m-d')])->whereNotNull('punch_in')->whereNull('punch_out')->exists();
+        $today_working_hours = 0;
+        $week_working_hours = 0;
+        $month_working_hours = 0;
+
+        // Today's Attendance
+        $today = Carbon::today()->format('Y-m-d');
+        $attendance = Attendance::where('user_id', $user->id)->where('date', $today)->first();
+
+        if ($attendance) {
+            if ($attendance->punch_in) {
+                $punchIn = Carbon::createFromFormat('H:i:s', $attendance->punch_in);
+                $punch_in_time = Carbon::createFromFormat('H:i:s', $attendance->punch_in)->format('g:i A');
+                $punchOut = $attendance->punch_out
+                    ? Carbon::createFromFormat('H:i:s', $attendance->punch_out)
+                    : Carbon::now();
+
+                $today_working_hours = $punchIn->diffInHours($punchOut);
+                $production_time = $punchIn->diff($punchOut)->format('%H:%I:%S');
+            }
+        }
+
+        // Calculate Weekly Working Hours
+        $week_start = Carbon::now()->startOfWeek()->format('Y-m-d');
+        $week_end = Carbon::now()->endOfWeek()->format('Y-m-d');
+        $week_attendances = Attendance::where('user_id', $user->id)
+            ->whereBetween('date', [$week_start, $week_end])
+            ->get();
+
+        foreach ($week_attendances as $attendance) {
+            if ($attendance->punch_in && $attendance->punch_out) {
+                $punchIn = Carbon::createFromFormat('H:i:s', $attendance->punch_in);
+                $punchOut = Carbon::createFromFormat('H:i:s', $attendance->punch_out);
+                $week_working_hours += $punchIn->diffInHours($punchOut);
+            }
+        }
+
+        // Calculate Monthly Working Hours
+        $month_start = Carbon::now()->startOfMonth()->format('Y-m-d');
+        $month_end = Carbon::now()->endOfMonth()->format('Y-m-d');
+        $month_attendances = Attendance::where('user_id', $user->id)
+            ->whereBetween('date', [$month_start, $month_end])
+            ->get();
+
+        foreach ($month_attendances as $attendance) {
+            if ($attendance->punch_in && $attendance->punch_out) {
+                $punchIn = Carbon::createFromFormat('H:i:s', $attendance->punch_in);
+                $punchOut = Carbon::createFromFormat('H:i:s', $attendance->punch_out);
+                $month_working_hours += $punchIn->diffInHours($punchOut);
+            }
+        }
+
+        $currentHour = Carbon::now()->format('H');
+
+        if ($currentHour >= 5 && $currentHour < 12) {
+            $greeting = "Good Morning";
+        } elseif ($currentHour >= 12 && $currentHour < 17) {
+            $greeting = "Good Afternoon";
+        } elseif ($currentHour >= 17 && $currentHour < 21) {
+            $greeting = "Good Evening";
+        } else {
+            $greeting = "Good Night";
+        }
+        $shift_start = $user->shift_start;
+        $shift_end = $user->shift_end;
+        $start_time = Carbon::createFromFormat('H:i:s', $shift_start);
+        if ($shift_end < $shift_start) {
+            $end_time = Carbon::createFromFormat('H:i:s', $shift_end)->addDay();
+        } else {
+            $end_time = Carbon::createFromFormat('H:i:s', $shift_end);
+        }
+        $total_shift_hour = $start_time->diffInHours($end_time);
+        $total_shift_week_hour = $start_time->diffInHours($end_time) * 7;
+        $total_this_monyh_days = Carbon::now()->daysInMonth;
+        $total_shift_month_hour = $start_time->diffInHours($end_time) * $total_this_monyh_days;
+
+        return $dataTable->with(['employee_id' => $id , 'search_start_date' => $search_start_date , 'search_end_date' => $search_end_date , 'search_status' => $search_status , 'search_behavior' => $search_behavior])->render('attendance.employee_attendance', compact('production_time','punch_in_time','is_punch_in','greeting','total_shift_hour','total_shift_week_hour','total_shift_month_hour','user','month_working_hours','week_working_hours','today_working_hours'));
     }
 }

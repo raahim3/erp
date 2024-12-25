@@ -85,7 +85,25 @@ class EmployeeAttendanceDataTable extends DataTable
     public function query(Attendance $model): QueryBuilder
     {
         $emp_id = $this->employee_id;
-        return $model->where('user_id', $emp_id)->whereMonth('created_at', Carbon::now()->month)->latest()->newQuery();
+        $query = $model->where('user_id', $emp_id);
+        if($this->search_start_date != null && $this->search_end_date != null){
+            $start_date = Carbon::createFromFormat('d/m/Y', $this->search_start_date)->startOfDay()->format('Y-m-d H:i:s');
+            $end_date = Carbon::createFromFormat('d/m/Y', $this->search_end_date)->endOfDay()->format('Y-m-d H:i:s');
+        
+            $query->whereBetween('created_at', [$start_date, $end_date]);
+        }
+        else{
+            $query->whereMonth('created_at', Carbon::now()->month);
+        }
+        if ($this->search_status) {
+            $query->where('status', $this->search_status);
+        }
+        if ($this->search_behavior) {
+            $query->where('punch_in_behavior', $this->search_behavior);
+        }
+        // dd($this->search_start_date, $this->search_end_date , $this->search_status , $this->search_behavior);
+
+        return $query->latest()->newQuery();
     }
 
     /**

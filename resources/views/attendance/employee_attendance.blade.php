@@ -2,14 +2,84 @@
 @section('title','Attendance')
 @section('content')
     <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        @php
+                            $message = 'Good morning';
+                        @endphp
+                        <p class="text-muted mb-1 text-center fw-bold text-sm">{{ $greeting }} , {{ $user->first_name }} </p>
+                        <h5 class="text-center mb-2 fw-bold">{{ date('g:i A').', '.date('d M Y')  }} </h5>
+                        <img src="{{ profileImage($user->profile) }}" width="120px" height="120px" alt="{{ $user->name }}" class="rounded-circle">
+                        <span class="badge bg-success w-100 py-2 fs-6 mt-3">Production Time : {{ $production_time }}</span>
+                        <span class="my-2">Punch In : {{ $punch_in_time }}</span>
+                        <button class="btn btn-primary w-100" data-id="{{ $is_punch_in ? 0 : 1 }}" id="punch_in_out">{{ $is_punch_in ? 'Punch Out' : "Punch In" }}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <i class="mdi mdi-clock-outline fs-2 bg-primary text-white py-1 px-2 rounded"></i>
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="mt-3 mb-0 fw-bold">Total Hours Today</h4>
+                                    <h4 class="mt-3 mb-0">{{ number_format($today_working_hours , 1) }} <span class="mx-1">/</span> {{ number_format($total_shift_hour) }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <i class="mdi mdi-clock-outline bg-info fs-2 text-white py-1 px-2 rounded"></i>
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="mt-3 mb-0 fw-bold">Total Hours Week</h4>
+                                    <h4 class="mt-3 mb-0">{{ number_format($week_working_hours , 1) }} <span class="mx-1">/</span> {{ number_format($total_shift_week_hour) }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <i class="mdi mdi-clock-outline fs-2 bg-warning text-white py-1 px-2 rounded"></i>
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="mb-0 mt-3 fw-bold">Total Hours Month</h4>
+                                    <h4 class="mt-3 mb-0">{{ number_format($month_working_hours , 1) }} <span class="mx-1">/</span> {{ number_format($total_shift_month_hour) }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <i class="mdi mdi-clock-outline fs-2 bg-success text-white py-1 px-2 rounded"></i>
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="mt-3 mb-0 fw-bold">Overtime this month</h4>
+                                    <h4 class="mt-3 mb-0">10 <span class="mx-1">/</span> 20</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <h2 class="card-title">Attendance</h2>
                     <div class="d-flex gap-2">
-                        <div>
-                            <label for="">Date</label>
-                            <input type="date" name="date" id="date_filter" class="form-control">
+                        <div class="mb-0">
+                            <label>Date </label>
+                            <div>
+                                <div class="input-daterange input-group" id="datepicker4" data-date-format="dd/mm/yyyy"  data-date-autoclose="true"  data-provide="datepicker" data-date-container='#datepicker4'>
+                                    <input type="text" class="form-control" id="start_date" name="start" placeholder="Start date" />
+                                    <input type="text" class="form-control" id="end_date" name="end" placeholder="End date" />
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <label for="">Status</label>
@@ -102,18 +172,18 @@
 
     <script>
         $(document).ready(function(){
-            var dataTable = $('#attendance-table').DataTable();
+            var dataTable = $('#employeeattendance-table').DataTable();
             function reloadTable() {
                 dataTable.ajax.reload();
             }
 
                 // Attach change event to filters
-                $('#employee_filter, #date_filter, #status_filter, #behavior_filter').on('change', function () {
+                $('#start_date, #end_date, #status_filter, #behavior_filter').on('change', function () {
                     reloadTable();
                 });
             dataTable.on('preXhr.dt', function (e, settings, data) {
-                data.employee_id = $('#employee_filter').val();
-                data.date = $('#date_filter').val();
+                data.start_date = $('#start_date').val();
+                data.end_date = $('#end_date').val();
                 data.status = $('#status_filter').val();
                 data.behavior = $('#behavior_filter').val();
             });
@@ -156,6 +226,17 @@
                 // console.log(id);
                 
             });
+            const today = new Date();
+            const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            const formatDate = (date) => {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0'); 
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            };
+            $('input[name="start"]').val(formatDate(firstDay));
+            $('input[name="end"]').val(formatDate(lastDay));
         });
     </script>
 @endsection
