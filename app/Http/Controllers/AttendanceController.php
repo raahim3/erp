@@ -95,8 +95,8 @@ class AttendanceController extends Controller
         $attendance->punch_out = $request->punch_out;
         if($attendance->punch_in && $attendance->punch_out)
         {
-            $punchIn = Carbon::createFromFormat('H:i', $attendance->punch_in);
-            $punchOut = Carbon::createFromFormat('H:i:s', $attendance->punch_out);
+            $punchIn = Carbon::createFromFormat('H:i:s', $attendance->punch_in);
+            $punchOut = Carbon::createFromFormat('H:i', $attendance->punch_out);
             $attendance->production_time = $punchOut->diff($punchIn)->format('%H:%I:%S');
         }
         $attendance->update();
