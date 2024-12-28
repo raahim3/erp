@@ -6,6 +6,8 @@ use App\DataTables\DepartmentDataTable;
 use App\Models\Department;
 use Illuminate\Http\Request;
 
+use function Termwind\render;
+
 class DepartmentController extends Controller
 {
     /**
@@ -13,6 +15,10 @@ class DepartmentController extends Controller
      */
     public function index(DepartmentDataTable $dataTable)
     {
+        if(!auth()->user()->hasPermission('department_read'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         return $dataTable->render('departments.index');
     }
 
@@ -21,6 +27,10 @@ class DepartmentController extends Controller
      */
     public function create()
     {
+        if(!auth()->user()->hasPermission('department_create'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         return view('departments.create');
     }
 
@@ -29,6 +39,10 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
+        if(!auth()->user()->hasPermission('department_create'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
         $request->validate([
             'name' => 'required'
         ]);
@@ -55,6 +69,10 @@ class DepartmentController extends Controller
      */
     public function edit(string $id)
     {
+        if(!auth()->user()->hasPermission('department_edit'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         $department = Department::find($id);
         return view('departments.edit', compact('department'));
     }
@@ -64,6 +82,10 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if(!auth()->user()->hasPermission('department_edit'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
         $request->validate([
             'name' => 'required'
         ]);
@@ -81,6 +103,10 @@ class DepartmentController extends Controller
      */
     public function destroy(string $id)
     {
+        if(!auth()->user()->hasPermission('department_delete'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
         $department = Department::with('users')->find($id);
         if(count($department->users) > 0) {
             return redirect()->route('departments.index')->with('error', 'Department cannot be deleted because it has users');

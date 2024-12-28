@@ -16,9 +16,11 @@
                 </ol>
             </div>
         </div>
-        <div class="col-sm-6">
-            <a href="{{ route('designations.create') }}" class="btn btn-primary float-end"><i class="mdi mdi-plus me-1"></i> Add New Designation</a>
-        </div>
+        @if (auth()->user()->hasPermission('designation_create'))
+            <div class="col-sm-6">
+                <a href="{{ route('designations.create') }}" class="btn btn-primary float-end"><i class="mdi mdi-plus me-1"></i> Add New Designation</a>
+            </div>
+        @endif
     </div>
     <!-- end page title -->
 

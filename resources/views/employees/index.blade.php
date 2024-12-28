@@ -16,9 +16,11 @@
                 </ol>
             </div>
         </div>
-        <div class="col-sm-6">
-            <a href="{{ route('employees.create') }}" class="btn btn-primary float-end"><i class="mdi mdi-plus me-1"></i> Add New Employee</a>
-        </div>
+        @if (auth()->user()->hasPermission('employee_create'))
+            <div class="col-sm-6">
+                <a href="{{ route('employees.create') }}" class="btn btn-primary float-end"><i class="mdi mdi-plus me-1"></i> Add New Employee</a>
+            </div>
+        @endif
     </div>
     <!-- end page title -->
 

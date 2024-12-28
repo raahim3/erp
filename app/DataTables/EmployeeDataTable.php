@@ -42,16 +42,25 @@ class EmployeeDataTable extends DataTable
             })
             ->addColumn('action', function ($query) {
                 $en_id = Crypt::encrypt($query->id);
-                return '<div class="d-flex gap-2">
-                            <a href="'. route('attendance.employee', $en_id) .'" class="edit btn btn-primary btn-sm">Attendance</a>
-                            <a href="'. route('employees.edit', $query->id) .'" class="edit btn btn-primary btn-sm">Edit</a>
-                            <form action="'. route('employees.destroy', $query->id) .'" method="POST">
-                            '. csrf_field() .
-                            method_field('DELETE') .
-                                '<button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-                        <div>';  
-
+                $html = '<div class="d-flex gap-2">';
+                if(auth()->user()->hasPermission('employees_attendance'))
+                {
+                    $html .= '<a href="'. route('attendance.employee', $en_id) .'" class="edit btn btn-primary btn-sm">Attendance</a>';
+                }
+                if(auth()->user()->hasPermission('employee_edit'))
+                {
+                    $html .= '<a href="'. route('employees.edit', $query->id) .'" class="edit btn btn-primary btn-sm">Edit</a>';
+                }
+                if(auth()->user()->hasPermission('employee_delete'))
+                {
+                    $html .= '<form action="'. route('employees.destroy', $query->id) .'" method="POST">
+                                '. csrf_field() .
+                                method_field('DELETE') .
+                                    '<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>';
+                }
+                $html .= '<div>';  
+                            return $html;
             })
             ->rawColumns(['name', 'action'])
             ->setRowId('id');

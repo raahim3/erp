@@ -82,4 +82,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Attendance::class);
     }
+    
+    public function hasPermission($permission)
+    {
+        $permissions = json_decode($this->role->permissions->permissions);
+        return in_array($permission, $permissions);
+    }
 }

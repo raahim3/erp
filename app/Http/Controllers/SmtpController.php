@@ -11,12 +11,20 @@ class SmtpController extends Controller
 {
     public function index()
     {
+        if(!auth()->user()->hasPermission('smtp_setting'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         $smtp = Smtp::where('company_id', auth()->user()->company_id)->first();
         return view('settings.smtp', compact('smtp'));
     }
 
     public function update(Request $request , $id)
     {
+        if(!auth()->user()->hasPermission('smtp_setting'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         $request->validate([
             'from_name' => 'required',
             'from_email' => 'required',

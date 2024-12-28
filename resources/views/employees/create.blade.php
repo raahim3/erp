@@ -17,9 +17,11 @@
                 </ol>
             </div>
         </div>
-        <div class="col-sm-6">
-            <a href="{{ route('employees.index') }}" class="btn btn-primary float-end"><i class="mdi mdi-arrow-left me-1"></i> Back</a>
-        </div>
+        @if (auth()->user()->hasPermission('employee_read'))
+            <div class="col-sm-6">
+                <a href="{{ route('employees.index') }}" class="btn btn-primary float-end"><i class="mdi mdi-arrow-left me-1"></i> Back</a>
+            </div>
+        @endif
     </div>
     <!-- end page title -->
 

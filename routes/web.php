@@ -15,6 +15,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('roles', RoleController::class);
+    Route::any('roles/permissions/{id}',[RoleController::class,'permissions'])->name('roles.permissions');
     Route::resource('departments', DepartmentController::class);
     Route::resource('designations', DesignationController::class);
     Route::resource('employees', EmployeeController::class);

@@ -17,6 +17,10 @@ class EmployeeController extends Controller
      */
     public function index(EmployeeDataTable $dataTable)
     {
+        if(!auth()->user()->hasPermission('employee_read'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         return $dataTable->render('employees.index');
     }
 
@@ -25,6 +29,10 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        if(!auth()->user()->hasPermission('employee_create'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         $data['designations'] = Designation::where('company_id', auth()->user()->company_id)->get();
         $data['departments'] = Department::where('company_id', auth()->user()->company_id)->get();
         $data['roles'] = Role::where('company_id', auth()->user()->company_id)->get();
@@ -36,6 +44,10 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
+        if(!auth()->user()->hasPermission('employee_create'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -92,6 +104,10 @@ class EmployeeController extends Controller
      */
     public function edit(string $id)
     {
+        if(!auth()->user()->hasPermission('employee_edit'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         $data['user'] = User::with('role','department','designation','company')->find($id);
         $data['designations'] = Designation::where('company_id', auth()->user()->company_id)->get();
         $data['departments'] = Department::where('company_id', auth()->user()->company_id)->get();
@@ -104,6 +120,10 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if(!auth()->user()->hasPermission('employee_edit'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -159,6 +179,10 @@ class EmployeeController extends Controller
      */
     public function destroy(string $id)
     {
+        if(!auth()->user()->hasPermission('employee_delete'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
         $user = User::find($id);
         $user->delete();
         return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');

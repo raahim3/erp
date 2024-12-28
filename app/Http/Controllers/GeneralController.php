@@ -12,6 +12,10 @@ class GeneralController extends Controller
      */
     public function index()
     {
+        if(!auth()->user()->hasPermission('general_setting'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         $settings = General::where('company_id', auth()->user()->company_id)->first();
         return view('settings.general', compact('settings'));
     }
@@ -53,6 +57,10 @@ class GeneralController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if(!auth()->user()->hasPermission('general_setting'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
         $request->validate([
             'title' => 'required',
         ]);

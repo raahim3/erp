@@ -21,4 +21,9 @@ class Role extends Model
     {
         return $this->belongsTo(Company::class);
     }
+    
+    public function permissions()
+    {
+        return $this->hasOne(Permission::class);
+    }
 }

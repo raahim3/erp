@@ -23,16 +23,26 @@ class RoleDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
-                return '<div class="d-flex gap-2">
-                            <a href="'. route('roles.edit', $query->id) .'" class="edit btn btn-primary btn-sm">Edit</a>
-                            <form action="'. route('roles.destroy', $query->id) .'" method="POST">
-                            '. csrf_field() .
-                            method_field('DELETE') .
-                                '<button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-                        <div>';  
-
+                $html = '<div class="d-flex gap-2">';
+                    if(auth()->user()->hasPermission('role_permissions'))
+                    {
+                        $html .= '<a href="'. route('roles.permissions', $query->id) .'" class="edit btn btn-primary btn-sm">Permissions</a>';
+                    }
+                    if(auth()->user()->hasPermission('role_edit'))
+                    {
+                        $html .= '<a href="'. route('roles.edit', $query->id) .'" class="edit btn btn-primary btn-sm">Edit</a>';
+                    }
+                    if(auth()->user()->hasPermission('role_delete') && $query->is_default == 0)
+                    {
+                        $html .= '<form action="'. route('roles.destroy', $query->id) .'" method="POST">
+                            '. csrf_field() . method_field('DELETE') .
+                            '<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>';
+                    }
+                $html .= '<div>';  
+                return $html;
             })
+            
             ->setRowId('id');
     }
 

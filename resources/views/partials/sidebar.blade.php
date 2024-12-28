@@ -14,49 +14,72 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+                @if (auth()->user()->hasPermission('department_read') || auth()->user()->hasPermission('department_create'))
+                    <li >
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="mdi mdi-office-building"></i>
+                            <span>Departments</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="true">
+                            @if (auth()->user()->hasPermission('department_read'))
+                                <li><a href="{{ route('departments.index') }}">All Departments</a></li>
+                            @endif
+                            @if (auth()->user()->hasPermission('department_create'))
+                                <li><a href="{{ route('departments.create') }}">Create Department</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                @endif
+                @if (auth()->user()->hasPermission('designation_read') || auth()->user()->hasPermission('designation_create'))
+                    <li >
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="mdi mdi-badge-account-outline"></i>
+                            <span>Designations</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="true">
+                            @if (auth()->user()->hasPermission('designation_read'))
+                                <li><a href="{{ route('designations.index') }}">All Designations</a></li>
+                            @endif
+                            @if (auth()->user()->hasPermission('designation_create'))
+                                <li><a href="{{ route('designations.create') }}">Create Designation</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                @endif
+                @if (auth()->user()->hasPermission('role_read') || auth()->user()->hasPermission('role_create'))
+                    <li >
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="mdi mdi-shield-account-outline"></i>
+                            <span>Roles</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="true">
+                            @if (auth()->user()->hasPermission('role_read'))
+                                <li><a href="{{ route('roles.index') }}">All Roles</a></li>
+                            @endif
 
-                <li >
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-office-building"></i>
-                        <span>Departments</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="{{ route('departments.index') }}">All Departments</a></li>
-                        <li><a href="{{ route('departments.create') }}">Create Department</a></li>
-                    </ul>
-                </li>
-                <li >
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-badge-account-outline"></i>
-                        <span>Designations</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="{{ route('designations.index') }}">All Designations</a></li>
-                        <li><a href="{{ route('designations.create') }}">Create Designation</a></li>
-                    </ul>
-                </li>
-
-                <li >
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-shield-account-outline"></i>
-                        <span>Roles</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="{{ route('roles.index') }}">All Roles</a></li>
-                        <li><a href="{{ route('roles.create') }}">Create Role</a></li>
-                    </ul>
-                </li>
-
+                            @if (auth()->user()->hasPermission('role_create'))
+                                <li><a href="{{ route('roles.create') }}">Create Role</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                @endif
+                @if (auth()->user()->hasPermission('employee_read') || auth()->user()->hasPermission('employee_create'))
                 <li >
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-account-multiple-outline"></i>
                         <span>Employees</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="{{ route('employees.index') }}">All Employees</a></li>
-                        <li><a href="{{ route('employees.create') }}">Create Employee</a></li>
+                        @if (auth()->user()->hasPermission('employee_read'))
+                            <li><a href="{{ route('employees.index') }}">All Employees</a></li>
+                        @endif
+                        @if (auth()->user()->hasPermission('employee_create'))
+                            <li><a href="{{ route('employees.create') }}">Create Employee</a></li>
+                        @endif
                     </ul>
                 </li>
+                @endif
+                @if (auth()->user()->hasPermission('own_attendance'))
                 <li>
                     @php( $bcryp_id = \Illuminate\Support\Facades\Crypt::encrypt(auth()->user()->id) )
                     <a href="{{ route('attendance.employee',$bcryp_id) }}" class="waves-effect">
@@ -64,27 +87,39 @@
                         <span>Attendance</span>
                     </a>
                 </li>
+                @endif
 
-                <li >
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-account-multiple-outline"></i>
-                        <span>Attendance</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="{{ route('attendance.index') }}">Attendance</a></li>
-                    </ul>
-                </li>
+                @if (auth()->user()->hasPermission('employees_attendance'))
+                    <li >
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="mdi mdi-account-multiple-outline"></i>
+                            <span>Attendance</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="true">
+                            @if (auth()->user()->hasPermission('employees_attendance'))
+                                <li><a href="{{ route('attendance.index') }}">Attendance</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                @endif
 
-                <li >
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-cog"></i>
-                        <span>Settings</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="{{ route('general.index') }}">General</a></li>
-                        <li><a href="{{ route('smtp.index') }}">SMTP Configuration</a></li>
-                    </ul>
-                </li>
+
+                @if (auth()->user()->hasPermission('general_setting') || auth()->user()->hasPermission('smtp_setting'))
+                    <li >
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="mdi mdi-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="true">
+                            @if (auth()->user()->hasPermission('general_setting'))
+                                <li><a href="{{ route('general.index') }}">General</a></li>
+                            @endif
+                            @if (auth()->user()->hasPermission('smtp_setting'))
+                                <li><a href="{{ route('smtp.index') }}">SMTP Configuration</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                @endif
 
             </ul>
         </div>

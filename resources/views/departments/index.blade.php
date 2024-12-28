@@ -16,9 +16,11 @@
                 </ol>
             </div>
         </div>
-        <div class="col-sm-6">
-            <a href="{{ route('departments.create') }}" class="btn btn-primary float-end"><i class="mdi mdi-plus me-1"></i> Add New Department</a>
-        </div>
+        @if (auth()->user()->hasPermission('department_create'))
+            <div class="col-sm-6">
+                <a href="{{ route('departments.create') }}" class="btn btn-primary float-end"><i class="mdi mdi-plus me-1"></i> Add New Department</a>
+            </div>
+        @endif
     </div>
     <!-- end page title -->
 

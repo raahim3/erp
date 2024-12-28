@@ -15,6 +15,10 @@ class AttendanceController extends Controller
 
     public function index(AttendanceDataTable $dataTable , Request $request)
     {
+        if(!auth()->user()->hasPermission('employees_attendance'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         $employees = User::where(['status' => 1 , 'company_id' => auth()->user()->company_id ])->get();
         $all_attendance = Attendance::with('user')->where('company_id', auth()->user()->company_id)->get();
         $present_count = $all_attendance->where('status', 1)->where('date', date('Y-m-d'))->count(); 
@@ -111,6 +115,11 @@ class AttendanceController extends Controller
 
     public function employee_attendance(EmployeeAttendanceDataTable $dataTable , $employee_id, Request $request)
     {
+        
+        if(!auth()->user()->hasPermission('own_attendance'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         try {
             $id = Crypt::decrypt($employee_id);
         } catch (\Throwable $th) {

@@ -77,16 +77,19 @@ class RegisterController extends Controller
         $designation = new Designation();
         $designation->name = 'Ceo / Founder';
         $designation->company_id = $company->id;
+        $designation->is_default = 1;
         $designation->save();
 
         $department = new Department();
         $department->name = 'Ownership';
         $department->company_id = $company->id;
+        $department->is_default = 1;
         $department->save();
 
         $role = new Role();
         $role->name = 'Admin';
         $role->company_id = $company->id;
+        $role->is_default = 1;
         $role->save();
 
         $general = new General();

@@ -23,9 +23,20 @@ class DepartmentDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addColumn('action', function ($query) {
-            return '<div class="d-flex gap-2"><a href="'. route('departments.edit', $query->id) .'" class="edit btn btn-primary btn-sm">Edit</a>
-                   <form action="'. route('departments.destroy', $query->id) .'" method="POST">'. csrf_field() . method_field('DELETE') .'<button type="submit" class="btn btn-danger btn-sm">Delete</button></form><div>';  
-
+            $html = '<div class="d-flex gap-2">';
+                if(auth()->user()->hasPermission('department_edit'))
+                {
+                    $html .= '<a href="'. route('departments.edit', $query->id) .'" class="edit btn btn-primary btn-sm">Edit</a>';
+                }
+                if(auth()->user()->hasPermission('department_delete') && $query->is_default == 0)
+                {
+                    $html .= '<form action="'. route('departments.destroy', $query->id) .'" method="POST">
+                        '. csrf_field() . method_field('DELETE') .
+                        '<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>';
+                }
+            $html .= '<div>';  
+            return $html;
         })
         ->setRowId('id');
     }

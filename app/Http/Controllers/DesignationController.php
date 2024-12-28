@@ -13,6 +13,10 @@ class DesignationController extends Controller
      */
     public function index(DesignationDataTable $dataTable)
     {
+        if(!auth()->user()->hasPermission('designation_read'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         return $dataTable->render('designations.index');
     }
 
@@ -21,6 +25,10 @@ class DesignationController extends Controller
      */
     public function create()
     {
+        if(!auth()->user()->hasPermission('designation_create'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         return view('designations.create');
     }
 
@@ -29,6 +37,10 @@ class DesignationController extends Controller
      */
     public function store(Request $request)
     {
+        if(!auth()->user()->hasPermission('designation_create'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
         $request->validate([
             'name' => 'required'
         ]);
@@ -55,6 +67,10 @@ class DesignationController extends Controller
      */
     public function edit(string $id)
     {
+        if(!auth()->user()->hasPermission('designation_edit'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this page.');
+        }
         $designation = Designation::find($id);
         return view('designations.edit', compact('designation'));
     }
@@ -64,6 +80,10 @@ class DesignationController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if(!auth()->user()->hasPermission('designation_edit'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
         $request->validate([
             'name' => 'required'
         ]);
@@ -81,6 +101,10 @@ class DesignationController extends Controller
      */
     public function destroy(string $id)
     {
+        if(!auth()->user()->hasPermission('designation_delete'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
         $designation = Designation::with('users')->find($id);
         if(count($designation->users) > 0) {
             return redirect()->route('designations.index')->with('error', 'Designation cannot be deleted because it has users');
