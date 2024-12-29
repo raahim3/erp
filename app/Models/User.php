@@ -88,4 +88,9 @@ class User extends Authenticatable
         $permissions = json_decode($this->role->permissions->permissions);
         return in_array($permission, $permissions);
     }
+    public function leave_requests()
+    {
+        return $this->hasMany(LeaveRequest::class);
+    }
+    
 }

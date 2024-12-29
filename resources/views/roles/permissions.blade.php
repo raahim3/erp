@@ -72,6 +72,20 @@
                             <td><input type="checkbox" name="employee_edit" value="1" {{ in_array('employee_edit',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="employee_delete" value="1" {{ in_array('employee_delete',$all_permissions) ? 'checked' : '' }}></td>
                         </tr>
+                        <tr>
+                            <th>Leave Types</th>
+                            <td><input type="checkbox" name="leave_type_read" value="1" {{ in_array('leave_type_read',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="leave_type_create" value="1" {{ in_array('leave_type_create',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="leave_type_edit" value="1" {{ in_array('leave_type_edit',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="leave_type_delete" value="1" {{ in_array('leave_type_delete',$all_permissions) ? 'checked' : '' }}></td>
+                        </tr>
+                        <tr>
+                            <th>Leave Request</th>
+                            <td><input type="checkbox" name="leave_read" value="1" {{ in_array('leave_read',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="leave_create" value="1" {{ in_array('leave_create',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="leave_edit" value="1" {{ in_array('leave_edit',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="leave_delete" value="1" {{ in_array('leave_delete',$all_permissions) ? 'checked' : '' }}></td>
+                        </tr>
                     </table>
                     <h4>Other Permissions</h4>
                     <table class="table table-bordered permission-table">
@@ -79,13 +93,17 @@
                             <tr>
                                 <th>Own Attendance</th>
                                 <th>Employees Attendance</th>
+                                <th>Edit Attendance</th>
                                 <th>Role Permissions</th>
+                                <th>Approve/Reject Leave</th>
                             </tr>
                         </thead>
                         <tr>
                             <td><input type="checkbox" name="own_attendance" value="1" {{ in_array('own_attendance',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="employees_attendance" value="1" {{ in_array('employees_attendance',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="edit_attendance" value="1" {{ in_array('edit_attendance',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="role_permissions" value="1" {{ in_array('role_permissions',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="approve_reject_leave" value="1" {{ in_array('approve_reject_leave',$all_permissions) ? 'checked' : '' }}></td>
                         </tr>
                     </table>
                     <h4>Settings</h4>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\AttendanceDataTable;
 use App\DataTables\EmployeeAttendanceDataTable;
 use App\Models\Attendance;
+use App\Models\LeaveRequest;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -34,12 +35,19 @@ class AttendanceController extends Controller
 
     public function createAttendance()
     {
+        $currentDate = date('Y-m-d');
         $all_users = User::where('status', 1)->get();
         foreach($all_users as $user){
+            $leave_request = LeaveRequest::where('user_id', $user->id)
+                ->where('status', 1)
+                ->whereDate('start_date', '<=', $currentDate)
+                ->whereDate('end_date', '>=', $currentDate) 
+                ->exists();
             $attendance = new Attendance();
             $attendance->user_id = $user->id;
             $attendance->company_id = $user->company_id;
             $attendance->date = date('Y-m-d');
+            $attendance->status = $leave_request ? '2' : '0';
             $attendance->save();
         }
         return true;

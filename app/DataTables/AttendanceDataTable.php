@@ -130,7 +130,7 @@ class AttendanceDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
+        $columns = [
             Column::make('id'),
             Column::make('employee'),
             Column::make('date'),
@@ -139,8 +139,14 @@ class AttendanceDataTable extends DataTable
             Column::make('production_time'),
             Column::make('status'),
             Column::make('behavior'),
-            Column::make('action'),
         ];
+        if(auth()->user()->hasPermission('edit_attendance')) {
+            $columns[] = Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->addClass('text-center');
+        }
+        return $columns;
     }
 
     /**

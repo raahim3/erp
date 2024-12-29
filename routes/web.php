@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AttendanceController, DepartmentController, DesignationController, EmployeeController, GeneralController, HomeController, RoleController, SmtpController};
+use App\Http\Controllers\{AttendanceController, DepartmentController, DesignationController, EmployeeController, GeneralController, HomeController, LeaveRequestController, LeaveTypeController, RoleController, SmtpController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +25,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('punch_in',[AttendanceController::class,'punch_in'])->name('punch.in');
     Route::post('get/attendance/data', [AttendanceController::class, 'getAttendanceData'])->name('get.attendance.data');
     Route::post('attendance/update',[AttendanceController::class,'update'])->name('attendances.update');
+
+    Route::resource('leave_types', LeaveTypeController::class);
+    Route::resource('leave_requests', LeaveRequestController::class);
+    Route::get('leave_requests/{id}/{status}', [LeaveRequestController::class, 'change_status'])->name('leave_requests.change_status');
+
     Route::resource('settings/general', GeneralController::class);
     Route::resource('settings/smtp', SmtpController::class);
     Route::post('settings/smtp/test', [SmtpController::class, 'test'])->name('smtp.test');

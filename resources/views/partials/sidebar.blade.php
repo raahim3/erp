@@ -99,8 +99,27 @@
                             @if (auth()->user()->hasPermission('employees_attendance'))
                                 <li><a href="{{ route('attendance.index') }}">Attendance</a></li>
                             @endif
+                            @if (auth()->user()->hasPermission('leave_read'))
+                                <li><a href="{{ route('leave_requests.index') }}">Leaves</a></li>
+                            @endif
                         </ul>
                     </li>
+                @endif
+                @if (auth()->user()->hasPermission('leave_type_read') || auth()->user()->hasPermission('leave_type_create'))
+                <li >
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-account-multiple-outline"></i>
+                        <span>Leave Types</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        @if (auth()->user()->hasPermission('leave_type_read'))
+                            <li><a href="{{ route('leave_types.index') }}">All Leave Types</a></li>
+                        @endif
+                        @if (auth()->user()->hasPermission('leave_type_create'))
+                            <li><a href="{{ route('leave_types.create') }}">Create Leave Type</a></li>
+                        @endif
+                    </ul>
+                </li>
                 @endif
 
 
