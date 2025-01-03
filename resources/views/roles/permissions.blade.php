@@ -86,6 +86,13 @@
                             <td><input type="checkbox" name="leave_edit" value="1" {{ in_array('leave_edit',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="leave_delete" value="1" {{ in_array('leave_delete',$all_permissions) ? 'checked' : '' }}></td>
                         </tr>
+                        <tr>
+                            <th>Salary</th>
+                            <td><input type="checkbox" name="salary_read" value="1" {{ in_array('salary_read',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="salary_create" value="1" {{ in_array('salary_create',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="salary_edit" value="1" {{ in_array('salary_edit',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="salary_delete" value="1" {{ in_array('salary_delete',$all_permissions) ? 'checked' : '' }}></td>
+                        </tr>
                     </table>
                     <h4>Other Permissions</h4>
                     <table class="table table-bordered permission-table">
@@ -104,6 +111,16 @@
                             <td><input type="checkbox" name="edit_attendance" value="1" {{ in_array('edit_attendance',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="role_permissions" value="1" {{ in_array('role_permissions',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="approve_reject_leave" value="1" {{ in_array('approve_reject_leave',$all_permissions) ? 'checked' : '' }}></td>
+                        </tr>
+                        <thead>
+                            <tr>
+                                <th>Own Leaves</th>
+                                <th>Apply Leaves</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="checkbox" name="own_leaves" value="1" {{ in_array('own_leaves',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="apply_leaves" value="1" {{ in_array('apply_leaves',$all_permissions) ? 'checked' : '' }}></td>
                         </tr>
                     </table>
                     <h4>Settings</h4>

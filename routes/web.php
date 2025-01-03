@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AttendanceController, DepartmentController, DesignationController, EmployeeController, GeneralController, HomeController, LeaveRequestController, LeaveTypeController, RoleController, SmtpController};
+use App\Http\Controllers\{AttendanceController, DepartmentController, DesignationController, EmployeeController, GeneralController, HomeController, LeaveRequestController, LeaveTypeController, RoleController, SalaryController, SmtpController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +29,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('leave_types', LeaveTypeController::class);
     Route::resource('leave_requests', LeaveRequestController::class);
     Route::get('leave_requests/{id}/{status}', [LeaveRequestController::class, 'change_status'])->name('leave_requests.change_status');
+    Route::get('leaves/{employee_id}',[LeaveRequestController::class,'employee_leaves'])->name('leave_requests.employee');
+
+    Route::resource('salaries', SalaryController::class);
+    Route::get('user/{id}/salary',[SalaryController::class,'history'])->name('salaries.history');
 
     Route::resource('settings/general', GeneralController::class);
     Route::resource('settings/smtp', SmtpController::class);

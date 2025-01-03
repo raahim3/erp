@@ -79,12 +79,20 @@
                     </ul>
                 </li>
                 @endif
+                @php( $bcryp_id = \Illuminate\Support\Facades\Crypt::encrypt(auth()->user()->id) )
                 @if (auth()->user()->hasPermission('own_attendance'))
                 <li>
-                    @php( $bcryp_id = \Illuminate\Support\Facades\Crypt::encrypt(auth()->user()->id) )
                     <a href="{{ route('attendance.employee',$bcryp_id) }}" class="waves-effect">
                         <i class="mdi mdi-calendar-clock"></i>
                         <span>Attendance</span>
+                    </a>
+                </li>
+                @endif
+                @if (auth()->user()->hasPermission('own_leaves'))
+                <li>
+                    <a href="{{ route('leave_requests.employee',$bcryp_id) }}" class="waves-effect">
+                        <i class="mdi mdi-calendar-clock"></i>
+                        <span>Leaves</span>
                     </a>
                 </li>
                 @endif
@@ -105,18 +113,15 @@
                         </ul>
                     </li>
                 @endif
-                @if (auth()->user()->hasPermission('leave_type_read') || auth()->user()->hasPermission('leave_type_create'))
+                @if (auth()->user()->hasPermission('salary_read'))
                 <li >
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="mdi mdi-account-multiple-outline"></i>
-                        <span>Leave Types</span>
+                        <i class="mdi mdi-currency-usd"></i>
+                        <span>Payroll</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
-                        @if (auth()->user()->hasPermission('leave_type_read'))
-                            <li><a href="{{ route('leave_types.index') }}">All Leave Types</a></li>
-                        @endif
-                        @if (auth()->user()->hasPermission('leave_type_create'))
-                            <li><a href="{{ route('leave_types.create') }}">Create Leave Type</a></li>
+                        @if (auth()->user()->hasPermission('salary_read'))
+                            <li><a href="{{ route('salaries.index') }}">Salaries</a></li>
                         @endif
                     </ul>
                 </li>

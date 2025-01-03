@@ -94,7 +94,7 @@ class AttendanceController extends Controller
     {
         $all_attendance = Attendance::with('user')->where('company_id', auth()->user()->company_id)->get();
         $present_count = $all_attendance->where('status', 1)->where('date', date('Y-m-d'))->count(); 
-        $adbsent_count = $all_attendance->where('status', 0)->where('date', date('Y-m-d'))->count(); 
+        $absent_count = $all_attendance->where('status', 0)->where('date', date('Y-m-d'))->count(); 
         $leave_count = $all_attendance->where('status', 2)->where('date', date('Y-m-d'))->count();
         return response()->json(['present_count' => $present_count , 'absent_count' => $absent_count , 'leave_count' => $leave_count]); 
     }

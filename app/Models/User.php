@@ -93,4 +93,13 @@ class User extends Authenticatable
         return $this->hasMany(LeaveRequest::class);
     }
     
+    public function salaries()
+    {
+        return $this->hasMany(Salary::class);
+    }
+
+    public function salary()
+    {
+        return $this->hasMany(Salary::class)->where('status',1);
+    }
 }
