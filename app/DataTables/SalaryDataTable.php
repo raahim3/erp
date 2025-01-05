@@ -26,7 +26,12 @@ class SalaryDataTable extends DataTable
             ->addColumn('action', function($query){
                 $encode_id = Crypt::encrypt($query->user_id);
                 $html = '<div class="d-flex gap-2">';
-                $html .= '<a class="btn btn-primary w-sm" href="'. route('salaries.history',$encode_id) .'"><i class="mdi mdi-history"></i> History</a>';
+                if(auth()->user()->hasPermission('employees_salary_history'))
+                {
+                    $html .= '<a class="btn btn-primary w-sm" href="'. route('salaries.history',$encode_id) .'"><i class="mdi mdi-history"></i> History</a>';
+                }
+                $html .= '<a class="btn btn-primary btn-sm d-flex align-items-center gap-2 inc_dec_btn inc" data-salary="'.  $query->salary.'" data-user-id="'.$query->user_id.'" href="javascript:void(0);"><i class="mdi mdi-arrow-up"></i> Increment</a>';
+                $html .= '<a class="btn btn-primary btn-sm d-flex align-items-center gap-2 inc_dec_btn dec" data-salary="'.  $query->salary.'" data-user-id="'.$query->user_id.'" href="javascript:void(0);"><i class="mdi mdi-arrow-down"></i> Decrement</a>';
                 $html .= '</div>';
                 return $html;
             })

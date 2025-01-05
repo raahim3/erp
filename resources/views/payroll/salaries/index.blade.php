@@ -35,12 +35,31 @@
 
 @endSection
 
+@include('payroll.salaries.change')
+
 @section('script')
     {{ $dataTable->scripts() }}
 
     <script>
         $(document).ready(function() {
-           
-        })
+           $(document).on('click','.inc_dec_btn',function(){
+                var salary = $(this).data('salary');
+                var user_id = $(this).data('user-id');
+                var type = "Increment";
+                if($(this).hasClass('dec'))
+                {
+                    type = "Decrement";
+                    $('#change_type_select').val('decrement');
+                }else{
+                    $('#change_type_select').val('increament');
+                }
+                $('#user_id').val(user_id);
+                $('#effective_date').val(null);
+                $('#change_type').text(type);
+                $('#current_salary').text(salary);
+                $('#salary').val(salary);
+                $('#changeSalaryModal').modal('show'); 
+           });
+        });
     </script>
 @endsection
