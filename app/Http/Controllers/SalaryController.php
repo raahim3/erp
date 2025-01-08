@@ -35,6 +35,11 @@ class SalaryController extends Controller
      */
     public function store(Request $request)
     {
+        if(!auth()->user()->hasPermission('give_increment_decrement'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
+        
         $request->validate([
             'salary' => 'required',
             'effective_date' => 'required|date',
@@ -109,6 +114,10 @@ class SalaryController extends Controller
 
     public function history($id)
     {
+        if(!auth()->user()->hasPermission('employees_salary_history'))
+        {
+            return redirect()->back()->with('error', 'You do not have permission to access this feature.');
+        }
         $id = Crypt::decrypt($id);
         $user = User::with('salaries')->find($id);
         $salaries = $user->salaries()->latest()->get();

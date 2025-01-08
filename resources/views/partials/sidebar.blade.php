@@ -96,6 +96,14 @@
                     </a>
                 </li>
                 @endif
+                @if (auth()->user()->hasPermission('holiday_read'))
+                <li>
+                    <a href="{{ route('holidays.index') }}" class="waves-effect">
+                        <i class="mdi mdi-calendar"></i>
+                        <span>Holidays</span>
+                    </a>
+                </li>
+                @endif
 
                 @if (auth()->user()->hasPermission('employees_attendance'))
                     <li >

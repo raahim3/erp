@@ -93,6 +93,13 @@
                             <td><input type="checkbox" name="salary_edit" value="1" {{ in_array('salary_edit',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="salary_delete" value="1" {{ in_array('salary_delete',$all_permissions) ? 'checked' : '' }}></td>
                         </tr>
+                        <tr>
+                            <th>Holidays</th>
+                            <td><input type="checkbox" name="holiday_read" value="1" {{ in_array('holiday_read',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="holiday_create" value="1" {{ in_array('holiday_create',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="holiday_edit" value="1" {{ in_array('holiday_edit',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="holiday_delete" value="1" {{ in_array('holiday_delete',$all_permissions) ? 'checked' : '' }}></td>
+                        </tr>
                     </table>
                     <h4>Other Permissions</h4>
                     <table class="table table-bordered permission-table">
