@@ -35,6 +35,7 @@ class SalaryDataTable extends DataTable
                     $html .= '<a class="btn btn-primary btn-sm d-flex align-items-center gap-2 inc_dec_btn inc" data-salary="'.  $query->salary.'" data-user-id="'.$query->user_id.'" href="javascript:void(0);"><i class="mdi mdi-arrow-up"></i> Increment</a>';
                     $html .= '<a class="btn btn-primary btn-sm d-flex align-items-center gap-2 inc_dec_btn dec" data-salary="'.  $query->salary.'" data-user-id="'.$query->user_id.'" href="javascript:void(0);"><i class="mdi mdi-arrow-down"></i> Decrement</a>';
                 }
+                $html .= '<a class="btn btn-primary btn-sm" href="'. route('salaries.edit', $query->id) .'"><i class="mdi mdi-eye"></i></a>';
                 $html .= '</div>';
                 return $html;
             })

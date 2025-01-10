@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AttendanceController, DepartmentController, DesignationController, EmployeeController, GeneralController, HolidayController, HomeController, LeaveRequestController, LeaveTypeController, RoleController, SalaryController, SmtpController};
+use App\Http\Controllers\{AllowanceController, AttendanceController, CommissionController, DepartmentController, DesignationController, EmployeeController, GeneralController, HolidayController, HomeController, LeaveRequestController, LeaveTypeController, LoanController, RoleController, SalaryController, SmtpController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +33,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('salaries', SalaryController::class);
     Route::get('user/{id}/salary',[SalaryController::class,'history'])->name('salaries.history');
-    
+    Route::resource('allowances', AllowanceController::class);
+    Route::resource('commissions', CommissionController::class);
+    Route::resource('loans', LoanController::class);
+
     Route::resource('holidays', HolidayController::class);
 
     Route::resource('settings/general', GeneralController::class);

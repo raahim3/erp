@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\SalaryDataTable;
+use App\Models\Allowance;
+use App\Models\Commission;
+use App\Models\Loan;
 use App\Models\Salary;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -93,7 +96,11 @@ class SalaryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $salary = Salary::find($id);
+        $allowances = Allowance::where('salary_id', $id)->get();
+        $commissions = Commission::where('salary_id', $id)->get();
+        $loans = Loan::where('salary_id', $id)->get();
+        return view('payroll.salaries.edit', compact('id','salary','allowances','commissions','loans'));
     }
 
     /**

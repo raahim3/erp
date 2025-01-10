@@ -102,4 +102,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Salary::class)->where('status',1);
     }
+
+    public function allowances()
+    {
+        return $this->hasMany(Allowance::class);
+    }
+    public function commissions()
+    {
+        return $this->hasMany(Commission::class);
+    }
+    public function loans()
+    {
+        return $this->hasMany(Loan::class);
+    }
 }
