@@ -13,6 +13,6 @@ class Payslip extends Model
 
     public function salary()
     {
-        return $this->belongsTo(salary::class);
+        return $this->belongsTo(Salary::class);
     } 
 }
