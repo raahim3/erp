@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class payslip extends Model
+class Payslip extends Model
 {
     public function user()
     {

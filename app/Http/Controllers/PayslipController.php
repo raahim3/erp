@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\PayslipDataTable;
-use App\Models\payslip;
+use App\Models\Payslip;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -38,9 +38,9 @@ class PayslipController extends Controller
 
         $employees = User::with('salary')->where(['status' => 1 , 'company_id' => auth()->user()->company_id ])->get();
         foreach ($employees as $employee) {
-            $check = payslip::where(['user_id' => $employee->id , 'payslip_month' => $month , 'payslip_year' => $year])->first();
+            $check = Payslip::where(['user_id' => $employee->id , 'payslip_month' => $month , 'payslip_year' => $year])->first();
             if (!$check) {
-                $payslip = new payslip();
+                $payslip = new Payslip();
                 $payslip->user_id = $employee->id;
                 $payslip->company_id = $employee->company_id;
                 $payslip->salary_id = $employee->salary[0]->id;
@@ -59,7 +59,7 @@ class PayslipController extends Controller
      */
     public function show(string $id)
     {
-        $payslip = payslip::with('user','salary')->find($id);
+        $payslip = Payslip::with('user','salary')->find($id);
         return view('payroll.slip' , compact('payslip'));
     }
 
@@ -84,14 +84,14 @@ class PayslipController extends Controller
      */
     public function destroy(string $id)
     {
-        $payslip = payslip::find($id);
+        $payslip = Payslip::find($id);
         $payslip->delete();
         return redirect()->back()->with('success', 'Payslip deleted successfully.');
     }
 
     public function change_status($id, $status)
     {
-        $payslip = payslip::find($id);
+        $payslip = Payslip::find($id);
         $payslip->status = $status;
         $payslip->update();
         if ($status == 'unpaid') {
