@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{AllowanceController, AttendanceController, CommissionController, DepartmentController, DesignationController, EmployeeController, GeneralController, HolidayController, HomeController, LeaveRequestController, LeaveTypeController, LoanController, RoleController, SalaryController, SmtpController};
+use App\Http\Controllers\{AllowanceController, AttendanceController, CommissionController, DepartmentController, DesignationController, EmployeeController, GeneralController, HolidayController, HomeController, LeaveRequestController, LeaveTypeController, LoanController, OvertimeController, PayslipController, RoleController, SalaryController, SmtpController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('allowances', AllowanceController::class);
     Route::resource('commissions', CommissionController::class);
     Route::resource('loans', LoanController::class);
+    Route::resource('overtime', OvertimeController::class);
+    Route::resource('payslips', PayslipController::class);
+    Route::get('payslips_status/{id}/{status}', [PayslipController::class, 'change_status'])->name('payslips.status.update');
 
     Route::resource('holidays', HolidayController::class);
 

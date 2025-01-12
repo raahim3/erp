@@ -115,4 +115,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Loan::class);
     }
+
+    public function overtimes()
+    {
+        return $this->hasMany(Overtime::class);
+    }
+
+    public function payslips()
+    {
+        return $this->hasMany(Payslip::class);
+    }
 }

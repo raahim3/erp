@@ -6,6 +6,7 @@ use App\DataTables\SalaryDataTable;
 use App\Models\Allowance;
 use App\Models\Commission;
 use App\Models\Loan;
+use App\Models\Overtime;
 use App\Models\Salary;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -99,8 +100,9 @@ class SalaryController extends Controller
         $salary = Salary::find($id);
         $allowances = Allowance::where('salary_id', $id)->get();
         $commissions = Commission::where('salary_id', $id)->get();
+        $overtimes = Overtime::where('salary_id', $id)->get();
         $loans = Loan::where('salary_id', $id)->get();
-        return view('payroll.salaries.edit', compact('id','salary','allowances','commissions','loans'));
+        return view('payroll.salaries.edit', compact('id','salary','allowances','commissions','loans','overtimes'));
     }
 
     /**

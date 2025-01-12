@@ -154,17 +154,39 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="header-title">Overtime</h4>
-                        <a href="javascript:void(0);" class="btn btn-primary"><i class="mdi mdi-plus"></i></a>
+                        <a href="javascript:void(0);" class="btn btn-primary create_edit_overtime"><i class="mdi mdi-plus"></i></a>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped mt-3">
                             <tr>
                                 <th>Employee</th>
                                 <th>Title</th>
-                                <th>Type</th>
-                                <th>Amount</th>
+                                <th>Days</th>
+                                <th>Hours</th>
+                                <th>Rate</th>
                                 <th>Action</th>
                             </tr>
+                            @forelse ($overtimes as $overtime)
+                                <tr>
+                                    <td>{{ $overtime->user->name }}</td>
+                                    <td>{{ $overtime->title }}</td>
+                                    <td>{{ $overtime->days }}</td>
+                                    <td>{{ $overtime->hours }}</td>
+                                    <td>{{ $overtime->rate }}</td>
+                                    <td class="d-flex gap-2">
+                                        <a href="javascript:void(0);" class="btn btn-primary create_edit_overtime" data-id="{{ $overtime->id }}" data-title="{{ $overtime->title }}" data-days="{{ $overtime->days }}" data-hours="{{ $overtime->hours }} " data-rate="{{ $overtime->rate }}"><i class="mdi mdi-pencil"></i></a>
+                                        <form action="{{ route('overtime.destroy',$overtime->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger"><i class="mdi mdi-delete"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">No overtime found</td>
+                                </tr>
+                            @endforelse
                         </table>
                     </div>
                 </div>
@@ -177,6 +199,7 @@
 @include('payroll.salaries.allowance.create')
 @include('payroll.salaries.commission.create')
 @include('payroll.salaries.loan.create')
+@include('payroll.salaries.overtime.create')
 
 @endSection
 
@@ -263,6 +286,38 @@
                 $('#loanModalLabel').text(heading);
                 $('#loanSubmit').text(button);
                 $('#createLoanModal').modal('show');
+            });
+            
+           $(document).on('click','.create_edit_overtime',function(){
+                var id = $(this).data('id');
+                var url = "{{ route('overtime.store') }}";
+                var heading = "Create Overtime";
+                var title = $(this).data('title');
+                var days = $(this).data('days');
+                var hours = $(this).data('hours');
+                var rate = $(this).data('rate');
+                var button = "Create";
+                var method = "";
+                $('#overtime_methed').attr('name', 're');
+                if(id){
+                    $('#overtime_methed').attr('name', '_method');
+                    url = "{{ route('overtime.update',':id') }}";
+                    url = url.replace(':id',id);
+                    heading = "Edit Overtime";
+                    button = "Update";
+                    method = "PUT";
+                }
+                console.log(hours);
+                
+                $('#overtime_methed').val(method);
+                $('#overtime_title').val(title);
+                $('#overtime_days').val(days);
+                $('#overtime_hour').val(hours);
+                $('#overtime_rate').val(rate);
+                $('#overtimeForm').attr('action', url);
+                $('#overtimeModalLabel').text(heading);
+                $('#overtimeSubmit').text(button);
+                $('#createOvertimeModal').modal('show');
             });
         })
     </script>

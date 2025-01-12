@@ -131,6 +131,9 @@
                         @if (auth()->user()->hasPermission('salary_read'))
                             <li><a href="{{ route('salaries.index') }}">Salaries</a></li>
                         @endif
+                        @if (auth()->user()->hasPermission('payslip_read'))
+                            <li><a href="{{ route('payslips.index') }}">Payslip</a></li>
+                        @endif
                     </ul>
                 </li>
                 @endif

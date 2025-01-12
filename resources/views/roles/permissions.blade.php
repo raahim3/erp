@@ -125,6 +125,7 @@
                                 <th>Apply Leaves</th>
                                 <th>Employees Salary History</th>
                                 <th>Give Increment / Decrement</th>
+                                <th>Payslip</th>
                             </tr>
                         </thead>
                         <tr>
@@ -132,6 +133,7 @@
                             <td><input type="checkbox" name="apply_leaves" value="1" {{ in_array('apply_leaves',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="employees_salary_history" value="1" {{ in_array('employees_salary_history',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="give_increment_decrement" value="1" {{ in_array('give_increment_decrement',$all_permissions) ? 'checked' : '' }}></td>
+                            <td><input type="checkbox" name="payslip_read" value="1" {{ in_array('payslip_read',$all_permissions) ? 'checked' : '' }}></td>
                         </tr>
                     </table>
                     <h4>Settings</h4>

@@ -4,15 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Salary extends Model
+class Overtime extends Model
 {
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function payslip()
-    {
-        return $this->belongsTo(Payslip::class);
     }
 }
