@@ -28,17 +28,18 @@
     </style>
     @include('partials.color')   
 </head>
-    <body data-sidebar="dark">
-
-        <div id="layout-wrapper">
-
-            @include('partials.header')
-
-            @include('partials.sidebar')
-            
-            <div class="main-content">
-                <div class="page-content">
-                    @yield('content') 
+<body data-sidebar="dark">
+    
+    <div id="layout-wrapper">
+        
+        @include('partials.header')
+        
+        @include('partials.sidebar')
+        
+        <div class="main-content">
+            <div class="page-content">
+                @yield('content') 
+                
                 </div>
             </div>
             @include('partials.footer')

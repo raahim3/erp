@@ -24,7 +24,8 @@
             </div>
         </div>
         @if (auth()->user()->hasPermission('role_read'))
-            <div class="col-sm-6">
+            <div class="col-sm-6 d-flex gap-2 align-items-center justify-content-end">
+                <button type="button" class="btn btn-primary float-end" id="selectAll">Select All</button>
                 <a href="{{ route('roles.index') }}" class="btn btn-primary float-end"><i class="mdi mdi-arrow-left me-1"></i> Back</a>
             </div>
         @endif
@@ -38,6 +39,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>All</th>
                                 <th>Read</th>
                                 <th>Create</th>
                                 <th>Edit</th>
@@ -46,6 +48,7 @@
                         </thead>
                         <tr>
                             <th>Departments</th>
+                            <td><input type="checkbox" class="selectGroup"></td>
                             <td><input type="checkbox" name="department_read" value="1" {{ in_array('department_read',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="department_create" value="1" {{ in_array('department_create',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="department_edit" value="1" {{ in_array('department_edit',$all_permissions) ? 'checked' : '' }}></td>
@@ -53,6 +56,7 @@
                         </tr>
                         <tr>
                             <th>Designations</th>
+                            <td><input type="checkbox" class="selectGroup"></td>
                             <td><input type="checkbox" name="designation_read" value="1" {{ in_array('designation_read',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="designation_create" value="1" {{ in_array('designation_create',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="designation_edit" value="1" {{ in_array('designation_edit',$all_permissions) ? 'checked' : '' }}></td>
@@ -60,6 +64,7 @@
                         </tr>
                         <tr>
                             <th>Roles</th>
+                            <td><input type="checkbox" class="selectGroup"></td>
                             <td><input type="checkbox" name="role_read" value="1" {{ in_array('role_read',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="role_create" value="1" {{ in_array('role_create',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="role_edit" value="1" {{ in_array('role_edit',$all_permissions) ? 'checked' : '' }}></td>
@@ -67,6 +72,7 @@
                         </tr>
                         <tr>
                             <th>Employees</th>
+                            <td><input type="checkbox" class="selectGroup"></td>
                             <td><input type="checkbox" name="employee_read" value="1" {{ in_array('employee_read',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="employee_create" value="1" {{ in_array('employee_create',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="employee_edit" value="1" {{ in_array('employee_edit',$all_permissions) ? 'checked' : '' }}></td>
@@ -74,6 +80,7 @@
                         </tr>
                         <tr>
                             <th>Leave Types</th>
+                            <td><input type="checkbox" class="selectGroup"></td>
                             <td><input type="checkbox" name="leave_type_read" value="1" {{ in_array('leave_type_read',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="leave_type_create" value="1" {{ in_array('leave_type_create',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="leave_type_edit" value="1" {{ in_array('leave_type_edit',$all_permissions) ? 'checked' : '' }}></td>
@@ -81,6 +88,7 @@
                         </tr>
                         <tr>
                             <th>Leave Request</th>
+                            <td><input type="checkbox" class="selectGroup"></td>
                             <td><input type="checkbox" name="leave_read" value="1" {{ in_array('leave_read',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="leave_create" value="1" {{ in_array('leave_create',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="leave_edit" value="1" {{ in_array('leave_edit',$all_permissions) ? 'checked' : '' }}></td>
@@ -88,6 +96,7 @@
                         </tr>
                         <tr>
                             <th>Salary</th>
+                            <td><input type="checkbox" class="selectGroup"></td>
                             <td><input type="checkbox" name="salary_read" value="1" {{ in_array('salary_read',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="salary_create" value="1" {{ in_array('salary_create',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="salary_edit" value="1" {{ in_array('salary_edit',$all_permissions) ? 'checked' : '' }}></td>
@@ -95,6 +104,7 @@
                         </tr>
                         <tr>
                             <th>Holidays</th>
+                            <td><input type="checkbox" class="selectGroup"></td>
                             <td><input type="checkbox" name="holiday_read" value="1" {{ in_array('holiday_read',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="holiday_create" value="1" {{ in_array('holiday_create',$all_permissions) ? 'checked' : '' }}></td>
                             <td><input type="checkbox" name="holiday_edit" value="1" {{ in_array('holiday_edit',$all_permissions) ? 'checked' : '' }}></td>
@@ -157,4 +167,32 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function(){
+        $('#selectAll').on('click',function(){
+            if($(this).text() == 'Select All')
+            {
+                $('input[type="checkbox"]').prop('checked',true);
+                $(this).text('Diselect All');
+            }
+            else
+            {
+                $('input[type="checkbox"]').prop('checked',false);
+                $(this).text('Select All');
+            }
+        });
+        $('.selectGroup').on('change',function(){
+            if($(this).prop('checked') == false)
+            {
+                $(this).parent().parent().find('input[type="checkbox"]:not(.selectGroup)').prop('checked',false);
+            }
+            else{
+                $(this).parent().parent().find('input[type="checkbox"]:not(.selectGroup)').prop('checked',true);
+            }
+        });
+    })
+</script>
 @endsection

@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class PayslipDataTable extends DataTable
@@ -30,6 +28,9 @@ class PayslipDataTable extends DataTable
             })
             ->addColumn('net_salary', function($query){
                 return '$'.number_format($query->net_salary, 2);
+            })
+            ->addColumn('month', function($query){
+                return $query->payslip_month.' '.$query->payslip_year;
             })
             ->addColumn('status', function($query){
                 if($query->status == 'paid')
@@ -55,7 +56,7 @@ class PayslipDataTable extends DataTable
                 $html .= '</div>';
                 return $html;
             })
-            ->rawColumns(['employee', 'action', 'status'])
+            ->rawColumns(['employee', 'action', 'month', 'status'])
             ->setRowId('id');
     }
 
@@ -97,6 +98,7 @@ class PayslipDataTable extends DataTable
             Column::make('employee'),
             Column::make('salary'),
             Column::make('net_salary'),
+            Column::make('month'),
             Column::make('status'),
             Column::computed('action')
                   ->exportable(false)

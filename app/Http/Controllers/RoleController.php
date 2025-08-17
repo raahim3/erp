@@ -51,6 +51,11 @@ class RoleController extends Controller
             'company_id' => auth()->user()->company_id
         ]);
 
+        $permission = new Permission();
+        $permission->role_id = $role->id;
+        $permission->permission = '[]';
+        $permission->save();
+
         return redirect()->route('roles.index')->with('success', 'Role created successfully');
     }
 

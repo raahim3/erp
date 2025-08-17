@@ -64,7 +64,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Password</label>
-                                <input type="password" name="password" class="form-control" required placeholder="PAssword" autocomplete="off">
+                                <input type="password" name="password" class="form-control" required placeholder="Password" autocomplete="off">
                                 @error('password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -130,6 +130,13 @@
                                 <label for="shift_end">Shift End</label>
                                 <input type="time" name="shift_end" class="form-control" id="shift_end">
                                 @error('shift_end')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="">Salary</label>
+                                <input type="number" name="salary" class="form-control" required placeholder="e.g 300000" value="{{ old('salary') }}">
+                                @error('salary')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

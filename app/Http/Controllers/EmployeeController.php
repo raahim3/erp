@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Designation;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Salary;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -60,6 +61,7 @@ class EmployeeController extends Controller
             'hired_at' => 'required',
             'shift_start' => 'required',
             'shift_end' => 'required',
+            'salary' => 'required',
             'status' => 'required',
         ]);
 
@@ -87,6 +89,16 @@ class EmployeeController extends Controller
             'status' => $request->status,
             'company_id' => auth()->user()->company_id
         ]);
+
+        $salary = new Salary();
+        $salary->salary = $request->salary;
+        $salary->effective_date = $request->hired_at ?? now();
+        $salary->user_id = $user->id;
+        $salary->company_id = auth()->user()->company_id;
+        $salary->action_by = auth()->user()->id;
+        $salary->type = 'initial';
+        $salary->status = 1;
+        $salary->save();
 
         return redirect()->route('employees.index')->with('success', 'Employee created successfully.');
     }

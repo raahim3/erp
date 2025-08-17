@@ -22,6 +22,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->dateTime('hired_at')->nullable();
+            $table->time('shift_start')->nullable();
+            $table->time('shift_end')->nullable();
             $table->foreignId('role_id')->constrained();
             $table->foreignId('department_id')->constrained();
             $table->foreignId('designation_id')->constrained();

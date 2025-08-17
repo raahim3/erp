@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\PayslipDataTable;
+use App\Models\General;
 use App\Models\Payslip;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -60,7 +61,8 @@ class PayslipController extends Controller
     public function show(string $id)
     {
         $payslip = Payslip::with('user','salary')->find($id);
-        return view('payroll.slip' , compact('payslip'));
+        $setting = General::where('company_id', auth()->user()->company_id)->first();
+        return view('payroll.slip' , compact('payslip','setting'));
     }
 
     /**
